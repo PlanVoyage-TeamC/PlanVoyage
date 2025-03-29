@@ -1,11 +1,14 @@
 import Image from "next/image";
+import Navbar from "@/app/components/Navbar";
+import { redirect } from "next/navigation";
 
 export default function Landing() {
+  redirect("/home");
   return (
-    <div className="">
-    <a href="/home">Home</a>
-    <a href="/signup">SignUp</a>
-    <a href="/login">Login</a>    
+    <div>
+      <a href="/signup"></a>
+      <a href="/login"></a>
+      <a href="/home"></a>
     </div>
   );
 }
