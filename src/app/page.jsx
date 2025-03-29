@@ -7,8 +7,7 @@ export default function Landing() {
   return (
     <div>
       <a href="/signup"></a>
-      <a href="/login"></a>
-      <a href="/home"></a>
+      <a href="/login"></a>    
     </div>
   );
 }

@@ -10,7 +10,7 @@ export default function Home() {
       <div className="bg-[#3A2C2285] w-full h-full">
         <Image src={Logo} alt="Logo" width={200} height={200} className="" />
         <div className="">
-          <Navbar />
+          <Navbar isDestinations={true} isPreferences={true} isHome={false} />
         </div>
         <div className="h-screen items-center text-center mt-16">
           <div className="font-extrabold text-7xl">START EXPLORING,</div>
