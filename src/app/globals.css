@@ -39,3 +39,10 @@ body {
   background-repeat: no-repeat;
 }
 
+.loginBg{ 
+  background-image: url('/images/loginBg.png'); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
