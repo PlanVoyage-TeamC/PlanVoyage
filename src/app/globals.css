@@ -5,7 +5,7 @@
   --foreground: #171717;
 }
 
-@theme inline {
+:root {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -25,22 +25,29 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.homeBg{ 
-  background-image: url('/images/homeBg.png'); 
+.homeBg {
+  background-image: url("/images/homeBg.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-.destinationBg{ 
-  background-image: url('/images/destinationBg.png'); 
+.destinationBg {
+  background-image: url("/images/destinationBg.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-.preferencesBg{ 
-  background-image: url('/images/preferenceBg.png'); 
+.preferencesBg {
+  background-image: url("/images/preferenceBg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.loginBg {
+  background-image: url("/images/loginBg.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

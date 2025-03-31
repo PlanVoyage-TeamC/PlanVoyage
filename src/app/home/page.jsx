@@ -3,6 +3,9 @@ import Logo from "../../../public/images/logo.png";
 import Navbar from "../components/Navbar";
 import SignInButton from "../components/signInButton";
 import Footer from "../components/Footer";
+import localFont from "next/font/local";
+
+
 
 export default function Home() {
   return (
@@ -12,9 +15,9 @@ export default function Home() {
         <div className="">
           <Navbar isDestinations={true} isPreferences={true} isHome={false} />
         </div>
-        <div className="h-screen items-center text-center mt-16">
-          <div className="font-extrabold text-7xl">START EXPLORING,</div>
-          <div className="font-extrabold text-7xl">TODAY</div>
+        <div className="h-screen items-center text-center text-white mt-16">
+          <div className="font-extrabold my-10 text-7xl">START EXPLORING,</div>
+          <div className="font-extrabold my-10 text-7xl">TODAY</div>
           <div className="">
             <SignInButton />
           </div>
