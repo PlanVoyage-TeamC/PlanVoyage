@@ -5,8 +5,6 @@ import SignInButton from "../components/signInButton";
 import Footer from "../components/Footer";
 import localFont from "next/font/local";
 
-
-
 export default function Home() {
   return (
     <div className="homeBg w-full h-screen relative">

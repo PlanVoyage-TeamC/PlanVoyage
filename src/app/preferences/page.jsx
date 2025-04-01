@@ -14,13 +14,88 @@ export default function Preferences() {
           ( Note : This will help us suggest the perfect destinations for you
           the first time!)
         </div>
-        <div className="flex my-2 ">
-          <h1 className="ml-30">Category</h1>
-          <div className="ml-80">
-            <CategoryDropdown />
+        <div className="mx-10">
+          <div className="  text-black text-lg font-semibold  ">
+            <div className="flex gap-50 my-5">
+              <h2 className="">Category:</h2>
+              <div className="">
+                <CategoryDropdown />
+              </div>
+            </div>
+            <div className="flex gap-50 my-5">
+              <h2 className="">Weather:</h2>
+              <div className="flex gap-10 ">
+                <button className="px-4 py-1 border-white/30 backdrop-blur-lg bg-white rounded hover:bg-gray-200">
+                  ☀️Sunny
+                </button>
+                <button className="px-4 py-1 border-white/30 backdrop-blur-lg bg-white rounded hover:bg-gray-200">
+                  🌦️Rainy
+                </button>
+                <button className="px-4 py-1 border-white/30 backdrop-blur-lg bg-white rounded hover:bg-gray-200">
+                  🌥️Cloudy
+                </button>
+                <button className="px-4 py-1 border-white/30 backdrop-blur-lg bg-white rounded hover:bg-gray-200">
+                  🌬️Windy
+                </button>
+                <button className="px-4 py-1 border-white/30 backdrop-blur-lg bg-white rounded hover:bg-gray-200">
+                  ❄️Snowy
+                </button>
+              </div>
+            </div>
+            <div className="flex gap-50 my-5">
+              <h2 className="">Travel Partner:</h2>
+              <div className="flex gap-10 ">
+                <button className="px-4 py-1 border-white/30 backdrop-blur-lg bg-white rounded hover:bg-gray-200">
+                  Solo
+                </button>
+                <button className="px-4 py-1 border-white/30 backdrop-blur-lg bg-white rounded hover:bg-gray-200">
+                  Couple
+                </button>
+                <button className="px-4 py-1 border-white/30 backdrop-blur-lg bg-white rounded hover:bg-gray-200">
+                  Family
+                </button>
+                <button className="px-4 py-1 border-white/30 backdrop-blur-lg bg-white rounded hover:bg-gray-200">
+                  Friends
+                </button>
+              </div>
+            </div>
+            <div className="flex gap-50 my-5">
+              <h2 className="">Activities:</h2>
+              <div className="flex gap-10 ">
+                <button className="px-4 py-1 border-white/30 backdrop-blur-lg bg-white rounded hover:bg-gray-200">
+                  Shopping
+                </button>
+                <button className="px-4 py-1 border-white/30 backdrop-blur-lg bg-white rounded hover:bg-gray-200">
+                  Adventure
+                </button>
+                <button className="px-4 py-1 border-white/30 backdrop-blur-lg bg-white rounded hover:bg-gray-200">
+                  Safari
+                </button>
+                <button className="px-4 py-1 border-white/30 backdrop-blur-lg bg-white rounded hover:bg-gray-200">
+                  Dining
+                </button>
+              </div>
+            </div>
           </div>
+          <div className="flex gap-50 my-5">
+            <h2 className="text-black text-lg font-semibold">Budget:</h2>
+            <input
+              type="number"
+              placeholder="Enter Budget in USD"
+              className="px-4 py-1 min-w-sm text-gray-600 border border-white/30 backdrop-blur-lg bg-white rounded hover:bg-gray-200 outline-none"
+            />
+          </div>
+          <div className="flex gap-10 my-5">
+                  <h2 className="text-black text-lg font-semibold">
+              Describe your previous travel experience:
+            </h2>
+            <input className="px-4 py-1 min-w-sm text-gray-600 border border-white/30 backdrop-blur-lg bg-white rounded hover:bg-gray-200 outline-none" />
+          </div>
+
+          <button className="px-4 py-1 min-w-sm bg-[#00800025]">
+            Suggest Destinations
+          </button>
         </div>
-        <div className=""></div>
       </div>
 
       <div className="">

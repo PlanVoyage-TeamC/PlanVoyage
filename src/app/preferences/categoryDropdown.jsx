@@ -26,7 +26,7 @@ export default function CategoryDropdown() {
   };
 
   return (
-    <div className="flex justify-center min-h-screen">
+    <div className="flex justify-center ">
       <div className="relative inline-block text-left">
         <button
           type="button"
