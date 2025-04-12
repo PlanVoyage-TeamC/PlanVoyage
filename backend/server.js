@@ -1,17 +1,18 @@
-const express = require('express');
-const cors = require('cors');
-const connectDB = require('./config/dbconfig');
-const destRoutes = require('./routes/fetchDestinations');
+import express from "express";
+import cors from "cors";
+import connectDB from "./config/dbconfig.js";
+import dotenv from "dotenv";
+import destRoutes from "./routes/fetchDestinations.js";
 const app = express();
 
-require('dotenv').config();
+dotenv.config();
 connectDB(); // Function call to connect DB
 
 app.use(cors());
-app.get('/', (req, res) => {
-    res.send('API is running...');
+app.get("/", (req, res) => {
+  res.send("API is running...");
 });
-app.use('/api', destRoutes); 
+app.use("/api", destRoutes);
 
 const PORT = process.env.PORT;
 

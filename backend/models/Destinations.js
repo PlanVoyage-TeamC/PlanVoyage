@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import { Schema, model } from 'mongoose';
 
-const destinationSchema = new mongoose.Schema({
+const destinationSchema = new Schema({
   id: { type: Number, required: true, unique: true},
   Image: { type: String, required: true },
   Loc_name: { type: String, required: true },
@@ -16,4 +16,4 @@ const destinationSchema = new mongoose.Schema({
   Currency: { type: String, required: true }
 });
 
-module.exports = mongoose.model('destinations', destinationSchema);
+export default model('destinations', destinationSchema);
