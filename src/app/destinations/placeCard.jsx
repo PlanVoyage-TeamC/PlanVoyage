@@ -1,7 +1,7 @@
 import Image from "next/image";
 import LikeDislike from "../../../public/images/likeDislike.png";
 
-export default function PlaceCard({ image, name, price }) {
+export default function PlaceCard({ image, name, maxprice, minprice }) {
   return (
     <div className="min-w-[350px] h-[260px] flex flex-col shadow-lg rounded-2xl ">
       <Image
@@ -13,8 +13,8 @@ export default function PlaceCard({ image, name, price }) {
       />
       <div className="bg-[#ffffff80] text-black rounded-b-2xl flex justify-between px-4 py-2">
         <div>
-          <h2 className="text-lg font-bold">{name}</h2>
-          <p className="text-sm">{price}</p>
+          <h3 className="text-[15px] font-bold">{name}</h3>
+          <p className="text-base">${minprice} - ${maxprice}</p>
         </div>
 
         <div className="flex gap-3 items-center justify-end pb-2">
