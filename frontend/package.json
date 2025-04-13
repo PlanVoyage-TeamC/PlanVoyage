@@ -9,9 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "15.2.4",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "axios": "^1.8.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "mongoose": "^8.13.1",
+    "next": "^15.2.4",
+    "pg": "^8.14.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "tailwind-scrollbar-hide": "^2.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
