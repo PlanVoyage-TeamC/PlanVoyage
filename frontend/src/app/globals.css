@@ -46,3 +46,10 @@ body {
   background-repeat: no-repeat;
 }
 
+.preferenceBg{ 
+  background-image: url('/images/preferenceBg.png'); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+

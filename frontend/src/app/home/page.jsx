@@ -6,7 +6,7 @@ import Footer from "../components/Footer";
 
 export default function Home() {
   return (
-    <div className="homeBg w-full h-screen relative">
+    <div className="preferenceBg w-full h-screen relative">
       <div className="bg-[#3A2C2285] w-full h-full">
         <Image src={Logo} alt="Logo" width={200} height={200} className="" />
         <div className="">
