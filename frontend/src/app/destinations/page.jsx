@@ -3,7 +3,6 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import PlaceCard from "./placeCard";
 import axios from "axios";
-import placeCardData from "../tempResources/placeCardData";
 import { useEffect, useState } from "react";
 
 export default function Destination() {

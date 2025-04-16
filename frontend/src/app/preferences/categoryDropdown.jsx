@@ -2,9 +2,8 @@
 import { useState } from "react";
 import { FaCaretDown } from "react-icons/fa";
 
-export default function CategoryDropdown() {
+export default function CategoryDropdown({selectedPlaces,setSelectedPlaces}) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedPlaces, setSelectedPlaces] = useState([]);
 
   const places = [
     "Beaches",
