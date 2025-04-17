@@ -53,3 +53,8 @@ body {
   background-repeat: no-repeat;
 }
 
+.text-stroke {
+  -webkit-text-stroke: 1px black;
+  color: black; 
+}
+
