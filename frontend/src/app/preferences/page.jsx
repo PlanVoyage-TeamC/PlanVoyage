@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import axios from "axios";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 
@@ -10,6 +11,27 @@ export default function Preferences() {
   const [selectedActivities, setSelectedActivities] = useState([]);
   const [budget, setBudget] = useState("");
   const [travelExperience, setTravelExperience] = useState("");
+
+  async function fetchDestinations() {
+    console.log(selectedCategories); 
+    console.log(selectedWeather); 
+    console.log(selectedPartners); 
+    console.log(selectedActivities); 
+    try{
+      const res = await axios.post( `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/preferences`,{
+        selectedCategories,
+        selectedWeather,
+        selectedPartners,
+        selectedActivities,
+        budget,
+        travelExperience
+      });
+      console.log(res);
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }  
 
   const categoryOptions = [
     "Beaches",
@@ -168,7 +190,7 @@ export default function Preferences() {
           </div>
 
           <div className="flex justify-center mt-6">
-            <button className="px-6 py-2 bg-[#10B98180] cursor-pointer hover:scale-x-105 rounded text-black font-medium">
+            <button className="px-6 py-2 bg-[#10B98180] cursor-pointer hover:scale-x-105 rounded text-black font-medium" onClick ={ () => fetchDestinations()}>
               Suggest Destinations
             </button>
           </div>
