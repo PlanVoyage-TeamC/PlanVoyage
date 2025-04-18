@@ -33,7 +33,7 @@ export default function Navbar({ isDestinations, isHome, isPreferences }) {
           redirect("#footer");
         }}
       >
-        Conatct Us
+        Contact Us
       </p>
     </div>
   );

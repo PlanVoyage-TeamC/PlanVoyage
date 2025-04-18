@@ -1,9 +1,24 @@
+"use client";
 import Image from "next/image";
-import LikeDislike from "../../../public/images/likeDislike.png";
+import { useState } from "react";
+import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 
 export default function PlaceCard({ image, name, maxprice, minprice }) {
+  const [liked, setLiked] = useState(false);
+  const [disliked, setDisliked] = useState(false);
+
+  const handleLike = () => {
+    setLiked(!liked);
+    if (disliked) setDisliked(false); // Only one active at a time
+  };
+
+  const handleDislike = () => {
+    setDisliked(!disliked);
+    if (liked) setLiked(false);
+  };
+
   return (
-    <div className="min-w-[350px] h-[260px] flex flex-col shadow-lg rounded-2xl ">
+    <div className="min-w-[350px] h-[260px] flex flex-col shadow-lg rounded-2xl">
       <Image
         src={image}
         alt={name}
@@ -18,19 +33,17 @@ export default function PlaceCard({ image, name, maxprice, minprice }) {
         </div>
 
         <div className="flex gap-3 items-center justify-end pb-2">
-          <Image
-            src={LikeDislike}
-            alt="Like"
-            width={30}
-            height={30}
-            className="cursor-pointer"
+          <FaThumbsUp
+            onClick={handleLike}
+            className={`cursor-pointer text-xl transition-colors  ${
+              liked ? "text-white" : "text-black"
+            }`}
           />
-          <Image
-            src={LikeDislike}
-            alt="Dislike"
-            width={30}
-            height={30}
-            className="cursor-pointer rotate-180"
+          <FaThumbsDown
+            onClick={handleDislike}
+            className={`cursor-pointer text-xl transition-colors ${
+              disliked ? "text-white" : "text-black"
+            }`}
           />
         </div>
       </div>
