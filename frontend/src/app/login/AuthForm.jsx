@@ -49,7 +49,7 @@ export default function AuthForm() {
     }
   
     setErrors(newErrors);
-    return Object.keys(newErrors).length !== 0;
+    return Object.keys(newErrors).length === 0;
   };
   
   const handleSubmit = async () => {
@@ -64,6 +64,8 @@ export default function AuthForm() {
 
       const res = await axios.post(`http://localhost:5000/api/${endpoint}`, payload);
       localStorage.setItem("token", res.data.token);
+      if(res.status == 200 || res.status == 201)
+        localStorage.setItem("email", email);
       router.push(isSignUp ? "/preferences" : "/destinations");
     } catch (err) {
       setSubmitError(err.response?.data?.error || "Something went wrong");
