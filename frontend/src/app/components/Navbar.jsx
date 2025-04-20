@@ -35,6 +35,31 @@ export default function Navbar({ isDestinations, isHome, isPreferences }) {
       >
         Contact Us
       </p>
+      <p
+        className="cursor-pointer"
+        onClick={() => {
+          redirect("/liked");
+        }}
+      >
+        Likes
+      </p>
+      <p
+  className="cursor-pointer"
+  onClick={() => {
+    redirect("/disliked");
+  }}
+>
+  Dislikes
+</p>
+<p
+  className="cursor-pointer"
+  onClick={() => {
+    localStorage.clear();
+    redirect("/");
+  }}
+>
+  Logout
+</p>
     </div>
   );
 }
