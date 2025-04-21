@@ -1,20 +1,78 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
+import axios from "axios";
 
-export default function PlaceCard({ image, name, maxprice, minprice }) {
-  const [liked, setLiked] = useState(false);
-  const [disliked, setDisliked] = useState(false);
 
-  const handleLike = () => {
-    setLiked(!liked);
-    if (disliked) setDisliked(false); // Only one active at a time
-  };
+export default function PlaceCard({ id, image, name, maxprice, minprice, onToggle }) {
+  const [preference, setPreference] = useState(null); // 'like', 'dislike', or null
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleDislike = () => {
-    setDisliked(!disliked);
-    if (liked) setLiked(false);
+  useEffect(() => {
+    const checkPreference = async () => {
+      const email = localStorage.getItem("email");
+      if (!email) return;
+
+      try {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/liked-places`, {
+          params: { email },
+        });
+        const isLiked = res.data.likedPlaces.some(p => p.id === id);
+        
+        if (isLiked) {
+          setPreference('like');
+          return;
+        }
+
+        const dislikeRes = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/disliked-places`, {
+          params: { email },
+        });
+        const isDisliked = dislikeRes.data.dislikedPlaces.some(p => p.id === id);
+        
+        if (isDisliked) {
+          setPreference('dislike');
+        }
+      } catch (err) {
+        console.error("Error checking preference:", err);
+      }
+    };
+
+    checkPreference();
+  }, [id]);
+
+  const handlePreference = async (newPreference) => {
+    const email = localStorage.getItem("email");
+    if (!email) 
+
+    setIsLoading(true);
+    try {
+      // If clicking the same preference, remove it (toggle off)
+      const finalPreference = preference === newPreference ? 'none' : newPreference;
+      
+      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/set-preference`, {
+        email,
+        placeId: id,
+        preference: finalPreference
+      });
+
+        // Immediate UI update
+    if (onToggle && (newPreference === preference || preference)) {
+      onToggle(id); // This removes the card from the list
+    }
+    
+      setPreference(finalPreference === 'none' ? null : finalPreference);
+      
+      if (onToggle && (finalPreference === 'none' || preference === 'like' || preference === 'dislike')) {
+        onToggle(id);
+      }
+
+      // window.location.reload();
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -34,15 +92,15 @@ export default function PlaceCard({ image, name, maxprice, minprice }) {
 
         <div className="flex gap-3 items-center justify-end pb-2">
           <FaThumbsUp
-            onClick={handleLike}
+            onClick={() => handlePreference('like')}
             className={`cursor-pointer text-xl transition-colors  ${
-              liked ? "text-white" : "text-black"
+              preference === 'like' ?  "text-white" : "text-black"
             }`}
           />
           <FaThumbsDown
-            onClick={handleDislike}
+            onClick={() => handlePreference('dislike')}
             className={`cursor-pointer text-xl transition-colors ${
-              disliked ? "text-white" : "text-black"
+              preference === 'dislike' ? "text-white" : "text-black"
             }`}
           />
         </div>

@@ -16,9 +16,11 @@ export default function Preferences() {
     console.log(selectedCategories); 
     console.log(selectedWeather); 
     console.log(selectedPartners); 
-    console.log(selectedActivities); 
+    console.log(selectedActivities);
+    const email = localStorage.getItem("email"); 
     try{
       const res = await axios.post( `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/preferences`,{
+        email,
         selectedCategories,
         selectedWeather,
         selectedPartners,

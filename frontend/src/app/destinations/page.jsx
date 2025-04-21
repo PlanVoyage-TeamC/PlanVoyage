@@ -3,17 +3,19 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import PlaceCard from "./placeCard";
 import axios from "axios";
-import placeCardData from "../tempResources/placeCardData";
 import { useEffect, useState } from "react";
 
 export default function Destination() {
   const [destinations, setDestinations] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
+      const mail = localStorage.getItem("email");
       try {
         const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/destinations`
-        );
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/destinations`,{
+            params : {email: mail}
+          
+      });
         setDestinations(res.data);
       } catch (err) {
         console.log(err);
@@ -32,6 +34,7 @@ export default function Destination() {
             return (
               <PlaceCard
                 key={index}
+                id={item.id}
                 image={item.Image}
                 name={item.Loc_name}
                 maxprice={item.Max_Price}
