@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 
 export default function PlaceCard({ id, image, name, maxprice, minprice, onToggle }) {
@@ -74,9 +75,10 @@ export default function PlaceCard({ id, image, name, maxprice, minprice, onToggl
       setIsLoading(false);
     }
   };
+  const router = useRouter(); 
 
   return (
-    <div className="min-w-[350px] h-[260px] flex flex-col shadow-lg rounded-2xl">
+    <div className="min-w-[350px] h-[260px] flex flex-col shadow-lg rounded-2xl cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out relative" onClick={() => router.push("/placedetails")}>
       <Image
         src={image}
         alt={name}
@@ -103,8 +105,11 @@ export default function PlaceCard({ id, image, name, maxprice, minprice, onToggl
               preference === 'dislike' ? "text-white" : "text-black"
             }`}
           />
+          
         </div>
+         
       </div>
+      
     </div>
   );
 }

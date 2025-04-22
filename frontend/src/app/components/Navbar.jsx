@@ -1,7 +1,7 @@
 "use client";
 import { redirect } from "next/navigation";
 
-export default function Navbar({ isDestinations, isHome, isPreferences }) {
+export default function Navbar({ isDestinations, isHome, isPreferences, isLiked, isDisliked }) {
   return (
     <div className="flex items-center justify-center text-xl font-light text-white  p-4 space-x-20">
       {isPreferences && (
@@ -35,31 +35,31 @@ export default function Navbar({ isDestinations, isHome, isPreferences }) {
       >
         Contact Us
       </p>
-      <p
+      {isLiked && (<p
         className="cursor-pointer"
         onClick={() => {
           redirect("/liked");
         }}
       >
         Likes
-      </p>
+      </p>)}
+      {isDisliked && (<p
+        className="cursor-pointer"
+        onClick={() => {
+          redirect("/disliked");
+        }}
+      >
+        Dislikes
+      </p>)}
       <p
-  className="cursor-pointer"
-  onClick={() => {
-    redirect("/disliked");
-  }}
->
-  Dislikes
-</p>
-<p
-  className="cursor-pointer"
-  onClick={() => {
-    localStorage.clear();
-    redirect("/");
-  }}
->
-  Logout
-</p>
+        className="cursor-pointer"
+        onClick={() => {
+          localStorage.clear();
+          redirect("/");
+        }}
+      >
+        Logout
+      </p>
     </div>
   );
 }
