@@ -48,11 +48,10 @@ export default function Preferences() {
   ];
 
   const weatherOptions = [
-    "☀️Sunny",
-    "🌦️Rainy",
-    "🌥️Cloudy",
-    "🌬️Windy",
-    "❄️Snowy",
+    "☀️Summer",
+    "🍂Fall",
+    "❄️Winter",
+    "🌸Spring"
   ];
   const partnerOptions = ["Solo", "Couple", "Family", "Friends"];
   const activityOptions = ["Shopping", "Adventure", "Safari", "Dining"];
@@ -104,7 +103,7 @@ export default function Preferences() {
           </div>
 
           <div className="my-5">
-            <h2 className="mb-2">Weather:</h2>
+            <h2 className="mb-2">Seasons:</h2>
             <div className="flex flex-wrap gap-4">
               {weatherOptions.map((w) => (
                 <button
