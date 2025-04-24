@@ -3,7 +3,7 @@ import { Schema, model } from 'mongoose';
 const preferencesSchema = new Schema({
   email: { type: String, required: true},
   Category: { type: [String], required: true },
-  Weather: { type: [String], required: false },
+  Seasons: { type: [String], required: false },
   Travel_Partner: { type: [String], required: false },
   Activities: { type: [String], required: false },
   Budget: { type: String, required: false },

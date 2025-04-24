@@ -4,15 +4,15 @@ import preferencesModel from "../models/Preferences.js";
 
 router.post("/preferences", async (req,res) => {
     console.log(req.body);
-    const { email, selectedCategories, selectedWeather, selectedPartners, selectedActivities, budget, travelExperience } = req.body;
+    const { email, selectedCategories, selectedSeasons, selectedPartners, selectedActivities, budget, travelExperience } = req.body;
     const Category = selectedCategories;
-    const Weather = selectedWeather;
+    const Seasons = selectedSeasons;
     const Travel_Partner = selectedPartners;
     const Activities = selectedActivities;
     const Budget = budget;
     const Travel_experience = travelExperience;
     try{
-       const preferences = new preferencesModel({email,Category,Weather,Travel_Partner,Activities,Budget,Travel_experience});
+       const preferences = new preferencesModel({email,Category,Seasons,Travel_Partner,Activities,Budget,Travel_experience});
        await preferences.save();
 
 /*       const matchingDestinations = await destinationsModel.find({

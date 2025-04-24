@@ -19,7 +19,7 @@ router.get("/destinations", async (req, res) => {
 
     const {
       Category = [],
-//      Weather = [],
+//      Seasons = [],
 //      Travel_Partner = [],
 //      Activities = [],
 //      Budget,
