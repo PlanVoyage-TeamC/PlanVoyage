@@ -1,7 +1,16 @@
 "use client";
 import { redirect } from "next/navigation";
+import { useEffect, useState } from "react";
 
-export default function Navbar({ isDestinations, isHome, isPreferences, isLiked, isDisliked }) {
+export default function Navbar({ isDestinations, isHome, isPreferences }) {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+
+    const loggedIn = localStorage.getItem("loggedIn") === "true";
+    setIsLoggedIn(loggedIn);
+  }, []);
+
   return (
     <div className="flex items-center justify-center text-xl font-light text-white  p-4 space-x-20">
       {isPreferences && (
@@ -10,7 +19,7 @@ export default function Navbar({ isDestinations, isHome, isPreferences, isLiked,
         </a>
       )}
       {isHome && (
-        <a href="/home" className="">
+         <a href={isLoggedIn ? "/destinations" : "/home"}>
           Home
         </a>
       )}
@@ -35,31 +44,26 @@ export default function Navbar({ isDestinations, isHome, isPreferences, isLiked,
       >
         Contact Us
       </p>
-      {isLiked && (<p
-        className="cursor-pointer"
-        onClick={() => {
-          redirect("/liked");
-        }}
-      >
-        Likes
-      </p>)}
-      {isDisliked && (<p
-        className="cursor-pointer"
-        onClick={() => {
-          redirect("/disliked");
-        }}
-      >
-        Dislikes
-      </p>)}
-      <p
-        className="cursor-pointer"
-        onClick={() => {
-          localStorage.clear();
-          redirect("/");
-        }}
-      >
-        Logout
-      </p>
+      {isLoggedIn && (
+        <>
+          <p className="cursor-pointer" onClick={() => redirect("/liked")}>
+            Likes
+          </p>
+          <p className="cursor-pointer" onClick={() => redirect("/disliked")}>
+            Dislikes
+          </p>
+          <p
+            className="cursor-pointer"
+            onClick={() => {
+              localStorage.clear();
+              redirect("/");
+            }}
+          >
+            Logout
+          </p>
+        </>
+      )}
     </div>
   );
+
 }
