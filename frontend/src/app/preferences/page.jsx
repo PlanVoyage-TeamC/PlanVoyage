@@ -1,10 +1,12 @@
 "use client";
 import { useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation"; 
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 
 export default function Preferences() {
+  const router = useRouter(); 
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedSeasons, setSelectedSeasons] = useState([]);
   const [selectedPartners, setSelectedPartners] = useState([]);
@@ -28,6 +30,10 @@ export default function Preferences() {
         budget,
         travelExperience
       });
+      if(res.status == 200)
+      {
+        router.push("/destinations"); 
+      }
       console.log(res);
     }
     catch (err) {
