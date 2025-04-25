@@ -51,6 +51,7 @@ export default function Preferences() {
     "🍂Fall",
     "❄️Winter",
     "🌸Spring",
+
   ];
 
   const partnerOptions = ["Solo", "Couple", "Family", "Friends"];

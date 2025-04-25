@@ -67,6 +67,7 @@ export default function AuthForm() {
       localStorage.setItem("token", res.data.token);
       if(res.status == 200 || res.status == 201)
         localStorage.setItem("email", email);
+      localStorage.setItem("loggedIn", "true");
       router.push(isSignUp ? "/preferences" : "/destinations");
     } catch (err) {
       setSubmitError(err.response?.data?.error || "Something went wrong");

@@ -35,7 +35,7 @@ export default function DislikesPage() {
   return (
     <div className="destinationBg w-full h-screen relative">
       <div className="bg-[#3A2C2298] w-full h-full">
-        <Navbar isDestinations={false} isPreferences={false} isHome={true} />
+      <Navbar isDestinations={false} isPreferences={false} isHome={true} isProfileShown={true} />
 
         <div className="p-8">
           <h1 className="text-3xl font-bold text-white mb-6">Your Disliked Places</h1>
