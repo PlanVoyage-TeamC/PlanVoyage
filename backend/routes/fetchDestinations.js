@@ -16,8 +16,7 @@ router.get("/destinations", async (req, res) => {
 
       const {
         Category = [],
-        // Uncomment other filters if needed
-        // Weather = [],
+        // Seasons = [],
         // Travel_Partner = [],
         // Activities = [],
         // Budget,
