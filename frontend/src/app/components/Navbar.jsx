@@ -1,69 +1,66 @@
 "use client";
-import { redirect } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { UserCircle } from "lucide-react";
 
-export default function Navbar({ isDestinations, isHome, isPreferences }) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+export default function Navbar({ isDestinations, isHome, isPreferences, isProfileShown }) {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const router = useRouter();
+  const dropdownRef = useRef(null);
 
-  useEffect(() => {
-
-    const loggedIn = localStorage.getItem("loggedIn") === "true";
-    setIsLoggedIn(loggedIn);
-  }, []);
+  const handleLogout = () => {
+    localStorage.clear();
+    router.push("/");
+  };
 
   return (
-    <div className="flex items-center justify-center text-xl font-light text-white  p-4 space-x-20">
-      {isPreferences && (
-        <a href="/preferences" className="">
-          Preferences
-        </a>
-      )}
-      {isHome && (
-         <a href={isLoggedIn ? "/destinations" : "/home"}>
-          Home
-        </a>
-      )}
-      {isDestinations && (
-        <a href="/destinations" className="">
-          Destinations
-        </a>
-      )}
-      <p
-        className="cursor-pointer"
-        onClick={() => {
-          redirect("#footer");
-        }}
-      >
-        About
-      </p>
-      <p
-        className="cursor-pointer"
-        onClick={() => {
-          redirect("#footer");
-        }}
-      >
-        Contact Us
-      </p>
-      {isLoggedIn && (
-        <>
-          <p className="cursor-pointer" onClick={() => redirect("/liked")}>
-            Likes
-          </p>
-          <p className="cursor-pointer" onClick={() => redirect("/disliked")}>
-            Dislikes
-          </p>
-          <p
-            className="cursor-pointer"
-            onClick={() => {
-              localStorage.clear();
-              redirect("/");
-            }}
-          >
-            Logout
-          </p>
-        </>
+    <div className="relative">
+      <div className="flex items-center justify-center text-xl font-light text-white p-4 space-x-20">
+        {isPreferences && <a href="/preferences">Preferences</a>}
+        {isHome && <a href="/home">Home</a>}
+        {isDestinations && <a href="/destinations">Destinations</a>}
+        <p className="cursor-pointer" onClick={() => router.push("#footer")}>About</p>
+        <p className="cursor-pointer" onClick={() => router.push("#footer")}>Contact Us</p>
+      </div>
+
+      {/* Show profile button only if logged in */}
+      {isProfileShown && (isHome || isDestinations) && (
+        <div className="absolute top-4 right-4 z-50" ref={dropdownRef}>
+          <UserCircle
+            size={36}
+            onClick={() => setDropdownOpen((prev) => !prev)}
+            className="text-white cursor-pointer hover:scale-105 transition-transform duration-200"
+          />
+          {dropdownOpen && (
+            <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded-md shadow-lg py-2">
+              <p
+                onClick={() => {
+                  router.push("/liked");
+                  setDropdownOpen(false);
+                }}
+                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              >
+                Likes
+              </p>
+              <p
+                onClick={() => {
+                  router.push("/disliked");
+                  setDropdownOpen(false);
+                }}
+                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              >
+                Dislikes
+              </p>
+              <p
+                onClick={handleLogout}
+                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              >
+                Logout
+              </p>
+            </div>
+          )}
+        </div>
       )}
     </div>
   );
-
 }
