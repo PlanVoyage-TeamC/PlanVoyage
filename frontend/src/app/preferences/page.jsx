@@ -6,7 +6,7 @@ import Navbar from "../components/Navbar";
 
 export default function Preferences() {
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [selectedWeather, setSelectedWeather] = useState([]);
+  const [selectedSeasons, setSelectedSeasons] = useState([]);
   const [selectedPartners, setSelectedPartners] = useState([]);
   const [selectedActivities, setSelectedActivities] = useState([]);
   const [budget, setBudget] = useState("");
@@ -14,7 +14,7 @@ export default function Preferences() {
 
   async function fetchDestinations() {
     console.log(selectedCategories); 
-    console.log(selectedWeather); 
+    console.log(selectedSeasons); 
     console.log(selectedPartners); 
     console.log(selectedActivities);
     const email = localStorage.getItem("email"); 
@@ -22,7 +22,7 @@ export default function Preferences() {
       const res = await axios.post( `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/preferences`,{
         email,
         selectedCategories,
-        selectedWeather,
+        selectedSeasons,
         selectedPartners,
         selectedActivities,
         budget,
@@ -34,7 +34,6 @@ export default function Preferences() {
       console.log(err);
     }
   }  
-
   const categoryOptions = [
     "Beaches",
     "Mountains",
@@ -47,12 +46,14 @@ export default function Preferences() {
     "Islands",
   ];
 
-  const weatherOptions = [
+  const seasonOptions = [
     "☀️Summer",
     "🍂Fall",
     "❄️Winter",
-    "🌸Spring"
+    "🌸Spring",
+
   ];
+
   const partnerOptions = ["Solo", "Couple", "Family", "Friends"];
   const activityOptions = ["Shopping", "Adventure", "Safari", "Dining"];
 
@@ -105,19 +106,19 @@ export default function Preferences() {
           <div className="my-5">
             <h2 className="mb-2">Seasons:</h2>
             <div className="flex flex-wrap gap-4">
-              {weatherOptions.map((w) => (
+              {seasonOptions.map((season) => (
                 <button
-                  key={w}
+                  key={season}
                   onClick={() =>
-                    toggleSelection(w, selectedWeather, setSelectedWeather)
+                    toggleSelection(season, selectedSeasons, setSelectedSeasons)
                   }
-                  className={`px-4 py-1  backdrop-blur-lg rounded cursor-pointer ${
-                    selectedWeather.includes(w)
+                  className={`px-4 py-1 backdrop-blur-lg rounded cursor-pointer ${
+                    selectedSeasons.includes(season)
                       ? "bg-[#A37686] rounded-3xl"
                       : "text-white"
-                  } hover:scale-105 `}
+                  } hover:scale-105`}
                 >
-                  {w}
+                  {season}
                 </button>
               ))}
             </div>

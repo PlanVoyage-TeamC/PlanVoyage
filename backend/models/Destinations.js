@@ -6,7 +6,7 @@ const destinationSchema = new Schema({
   Loc_name: { type: String, required: true },
   Description: { type: String, required: true },
   Category: { type: String, required: true },
-  Weather: { type: String, required: true },
+  Seasons: { type: String, required: true },
   Travel_Partner: { type: String, required: true },
   Activities: { type: String, required: true },
   State: { type: String, required: true },
