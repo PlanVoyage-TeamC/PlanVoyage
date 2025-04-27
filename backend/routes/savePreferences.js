@@ -14,15 +14,6 @@ router.post("/preferences", async (req,res) => {
     try{
        const preferences = new preferencesModel({email,Category,Seasons,Travel_Partner,Activities,Budget,Travel_experience});
        await preferences.save();
-
-/*       const matchingDestinations = await destinationsModel.find({
-        Category: { $in: Category },
-      });
-      console.log("Category filter:", Category);
-      console.log("Travel_Partner filter:", Travel_Partner);
-
-      console.log(matchingDestinations);*/
-
       res.status(200).json({
         message: "Preferences saved ",
       });

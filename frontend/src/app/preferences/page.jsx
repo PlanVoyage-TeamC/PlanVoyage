@@ -40,6 +40,9 @@ export default function Preferences() {
       console.log(err);
     }
   }  
+  function removeEmojis(text) {
+    return text.replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, '').trim();
+  }
   const categoryOptions = [
     "Beaches",
     "Mountains",
@@ -63,7 +66,10 @@ export default function Preferences() {
   const partnerOptions = ["Solo", "Couple", "Family", "Friends"];
   const activityOptions = ["Shopping", "Adventure", "Safari", "Dining"];
 
-  const toggleSelection = (value, selectedList, setSelectedList) => {
+  const toggleSelection = (value, selectedList, setSelectedList, emoji = false) => {
+    if(emoji){
+      value = removeEmojis(value);
+    }
     if (selectedList.includes(value)) {
       setSelectedList(selectedList.filter((item) => item !== value));
     } else {
@@ -116,10 +122,10 @@ export default function Preferences() {
                 <button
                   key={season}
                   onClick={() =>
-                    toggleSelection(season, selectedSeasons, setSelectedSeasons)
+                    toggleSelection(season, selectedSeasons, setSelectedSeasons, true)
                   }
                   className={`px-4 py-1 backdrop-blur-lg rounded cursor-pointer ${
-                    selectedSeasons.includes(season)
+                    selectedSeasons.includes(removeEmojis(season))
                       ? "bg-[#A37686] rounded-3xl"
                       : "text-white"
                   } hover:scale-105`}

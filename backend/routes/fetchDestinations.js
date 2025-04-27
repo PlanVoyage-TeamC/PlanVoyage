@@ -10,20 +10,24 @@ router.get("/destinations", async (req, res) => {
     if (email) {
       // Logged-in user with preferences
       const preferences = await preferencesModel.findOne({ email });
+      console.log(preferences);
       if (!preferences) {
         return res.status(404).json({ message: "No preferences found for this email" });
       }
 
       const {
         Category = [],
-        // Seasons = [],
-        // Travel_Partner = [],
-        // Activities = [],
+        Seasons = [],
+        Travel_Partner = [],
+        Activities = [],
         // Budget,
       } = preferences;
 
       const matchingDestinations = await destinationModel.find({
         Category: { $in: Category },
+        Seasons: { $in: Seasons },
+        Travel_Partner: { $in: Travel_Partner },
+        Activities: { $in: Activities },
       });
 
       return res.status(200).json(matchingDestinations);
