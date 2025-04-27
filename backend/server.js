@@ -6,6 +6,7 @@ import destRoutes from "./routes/fetchDestinations.js";
 import authRoutes from './routes/auth.js';
 import preferencesRoutes from "./routes/savePreferences.js";
 import userRoutes from './routes/user.js';
+import exploreRoutes from './routes/explore.js';
 const app = express();
 
 dotenv.config();
@@ -22,6 +23,7 @@ app.use("/api", destRoutes);
 app.use("/api", authRoutes); 
 app.use("/api", preferencesRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/explore', exploreRoutes);
 
 // Start the server
 const PORT = process.env.PORT;
