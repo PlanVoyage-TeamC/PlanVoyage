@@ -14,15 +14,17 @@ router.get("/destinations", async (req, res) => {
   try {
     const preferences = await preferencesModel.findOne({ email });
     if (!preferences) {
-      return res.status(404).json({ message: "No preferences found for this email" });
+      return res
+        .status(404)
+        .json({ message: "No preferences found for this email" });
     }
 
     const {
       Category = [],
-//      Weather = [],
-//      Travel_Partner = [],
-//      Activities = [],
-//      Budget,
+      //      Weather = [],
+      //      Travel_Partner = [],
+      //      Activities = [],
+      //      Budget,
     } = preferences;
 
     const matchingDestinations = await destinationModel.find({
@@ -35,8 +37,21 @@ router.get("/destinations", async (req, res) => {
   }
 });
 
-export default router;
+router.get("/destinations/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const destination = await destinationModel.findById(id);
+    if (!destination) {
+      return res.status(404).json({ message: "Destination not found" });
+    }
+    res.status(200).json(destination);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 
+export default router;
 
 /*import { Router } from "express";
 const router = Router();

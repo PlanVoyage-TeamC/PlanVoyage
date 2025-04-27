@@ -6,7 +6,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 
 
-export default function PlaceCard({ id, image, name, maxprice, minprice, onToggle }) {
+export default function PlaceCard({ id, image, item_id, name, maxprice, minprice, onToggle }) {
   const [preference, setPreference] = useState(null); // 'like', 'dislike', or null
   const [isLoading, setIsLoading] = useState(false);
 
@@ -78,7 +78,7 @@ export default function PlaceCard({ id, image, name, maxprice, minprice, onToggl
   const router = useRouter(); 
 
   return (
-    <div className="min-w-[350px] h-[260px] flex flex-col shadow-lg rounded-2xl cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out relative" onClick={() => router.push("/placedetails")}>
+    <div className="min-w-[350px] h-[260px] flex flex-col shadow-lg rounded-2xl cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out relative" onClick={() => router.push("/destinations/" + item_id)}>
       <Image
         src={image}
         alt={name}

@@ -35,6 +35,7 @@ export default function Destination() {
               <PlaceCard
                 key={index}
                 id={item.id}
+                item_id={item._id}
                 image={item.Image}
                 name={item.Loc_name}
                 maxprice={item.Max_Price}
