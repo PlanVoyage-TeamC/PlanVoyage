@@ -75,7 +75,7 @@ export default function AuthForm() {
 
     if (!validate()) return;
 
-    const { name, email, password, confirmPassword } = form;
+    const { firstname, lastname, email, password, confirmPassword } = form;
     try {
       const endpoint = isSignUp ? "signup" : "login";
       const payload = isSignUp ? { firstname, lastname, email, password, confirmPassword } : { email, password };
