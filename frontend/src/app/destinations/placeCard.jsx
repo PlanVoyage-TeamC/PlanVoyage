@@ -78,16 +78,16 @@ export default function PlaceCard({ id, image, item_id, name, maxprice, minprice
   const router = useRouter(); 
 
   return (
-    <div className="min-w-[350px] h-[260px] flex flex-col shadow-lg rounded-2xl cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out relative" onClick={() => router.push("/destinations/" + item_id)}>
+    <div className="min-w-[350px] h-[260px] flex flex-col shadow-lg rounded-2xl cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out relative" >
       <Image
         src={image}
         alt={name}
         width={350}
         height={250}
-        className="h-[200px] w-full object-cover rounded-t-2xl"
+        className="h-[200px] w-full object-cover rounded-t-2xl" onClick={() => router.push("/destinations/" + item_id)}
       />
-      <div className="bg-[#ffffff80] text-black rounded-b-2xl flex justify-between px-4 py-2">
-        <div>
+      <div className=" bg-[#ffffff80] text-black rounded-b-2xl flex justify-between px-4 py-2" >
+        <div onClick={() => router.push("/destinations/" + item_id)}>
           <h3 className="text-[15px] font-bold">{name}</h3>
           <p className="text-base">${minprice} - ${maxprice}</p>
         </div>
