@@ -31,11 +31,26 @@ router.get("/destinations", async (req, res) => {
       });
 
       return res.status(200).json(matchingDestinations);
-    } else {
+    } 
+     else {
       // Not logged in — return all destinations
       const destinations = await destinationModel.find();
       return res.status(200).json(destinations);
     }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+router.get("/destinations/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const destination = await destinationModel.findById(id);
+    if (!destination) {
+      return res.status(404).json({ message: "Destination not found" });
+    }
+    res.status(200).json(destination);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
