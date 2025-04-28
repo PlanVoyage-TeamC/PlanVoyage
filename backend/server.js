@@ -43,7 +43,7 @@ async function startServer() {
 
 async function runRecommendation() {
   try {
-    const userEmail = 'jessica@gmail.com'; // Pass user's email
+    const userEmail = 'asdf@g.com'; // Pass user's email
     const recommendations = await recommendDestinations(userEmail);
     console.log('Top Recommendations:', recommendations);
   } catch (error) {
