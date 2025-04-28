@@ -66,14 +66,13 @@ export default function PlaceDetails() {
 
       <div className="flex flex-col md:flex-row gap-8  p-8 md:p-12">
         <div className="flex-1 flex flex-col justify-center gap-4">
-          <p className="text-2xl text-black font-semibold">
-            Best to visit in{" "}
-            <span className="text-blue-800">{placeDetails.Weather}</span>
+          <p className="text-3xl text-black font-semibold">
+            Best to visit in <span className="text-blue-900">{placeDetails.Seasons.join(", ")}</span>
           </p>
 
-          <div className="flex flex-row gap-15">
+          <div className="flex flex-row gap-35">
             <div>
-              <h2 className="text-lg text-black font-semibold">
+              <h2 className="text-xl text-black font-semibold">
                 Travel Partner
               </h2>
               <ul className="list-disc list-inside text-black">
@@ -83,21 +82,27 @@ export default function PlaceDetails() {
               </ul>
             </div>
             <div>
-              <h2 className="text-lg text-black font-semibold">Activities</h2>
+              <h2 className="text-xl text-black font-semibold">Activities</h2>
               <ul className="list-disc list-inside text-black">
-                <li>Adventure</li>
-                <li>Dining</li>
+                {placeDetails.Activities.map((activity, index) => (
+                  <li key={index}>{activity}</li>
+                ))}
               </ul>
             </div>
           </div>
 
-          <p className="text-lg text-black font-semibold">
-            Price Range: <span className="text-black">600-800$</span>
+          <p className="text-xl text-black font-semibold">
+            Price Range: <span className="text-black"> 
+             ${placeDetails.Min_Price} - ${placeDetails.Max_Price}{" "}
+              
+            </span>
           </p>
 
-          <p className="text-lg text-black font-semibold">
+          <p className="text-xl text-black font-semibold">
             Address:{" "}
-            <span className="text-black">Mackinac Island, MI 49757</span>
+            <span className="text-black">
+              {placeDetails.Address}
+            </span>
           </p>
         </div>
 
