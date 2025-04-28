@@ -2,7 +2,7 @@
 export default function AuthCard({ isSignUp, form, errors, error, onChange, onSubmit, onToggle }) {
   return (
     <div className={`top-1/2 transform -translate-y-1/2 w-100
-         ${isSignUp ? "h-[560px]" : "h-[370px]"} bg-[#D9D9D9] p-8 rounded-xl shadow-lg mt-80`}>
+         ${isSignUp ? "h-[580px] mt-130" : "h-[370px] mt-80"} bg-[#D9D9D9] p-8 rounded-xl shadow-lg mt-80`}>
       <h2 className="text-black text-2xl font-serif text-center mb-6">
         {isSignUp ? "Create Account" : "Welcome!"}
       </h2>
