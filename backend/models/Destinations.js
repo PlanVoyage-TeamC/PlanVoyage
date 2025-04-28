@@ -16,4 +16,4 @@ const destinationSchema = new Schema({
   Currency: { type: String, required: true },
 });
 
-export default model("destinations_updated", destinationSchema);
+export default model('destinations', destinationSchema, 'destinations');

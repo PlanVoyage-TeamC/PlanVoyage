@@ -1,12 +1,14 @@
 "use client";
 import { useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation"; 
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 
 export default function Preferences() {
+  const router = useRouter(); 
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [selectedWeather, setSelectedWeather] = useState([]);
+  const [selectedSeasons, setSelectedSeasons] = useState([]);
   const [selectedPartners, setSelectedPartners] = useState([]);
   const [selectedActivities, setSelectedActivities] = useState([]);
   const [budget, setBudget] = useState("");
@@ -14,7 +16,7 @@ export default function Preferences() {
 
   async function fetchDestinations() {
     console.log(selectedCategories); 
-    console.log(selectedWeather); 
+    console.log(selectedSeasons); 
     console.log(selectedPartners); 
     console.log(selectedActivities);
     const email = localStorage.getItem("email"); 
@@ -22,19 +24,25 @@ export default function Preferences() {
       const res = await axios.post( `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/preferences`,{
         email,
         selectedCategories,
-        selectedWeather,
+        selectedSeasons,
         selectedPartners,
         selectedActivities,
         budget,
         travelExperience
       });
+      if(res.status == 200)
+      {
+        router.push("/destinations"); 
+      }
       console.log(res);
     }
     catch (err) {
       console.log(err);
     }
   }  
-
+  function removeEmojis(text) {
+    return text.replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, '').trim();
+  }
   const categoryOptions = [
     "Beaches",
     "Mountains",
@@ -47,16 +55,21 @@ export default function Preferences() {
     "Islands",
   ];
 
-  const weatherOptions = [
+  const seasonOptions = [
     "☀️Summer",
     "🍂Fall",
     "❄️Winter",
-    "🌸Spring"
+    "🌸Spring",
+
   ];
+
   const partnerOptions = ["Solo", "Couple", "Family", "Friends"];
   const activityOptions = ["Shopping", "Adventure", "Safari", "Dining"];
 
-  const toggleSelection = (value, selectedList, setSelectedList) => {
+  const toggleSelection = (value, selectedList, setSelectedList, emoji = false) => {
+    if(emoji){
+      value = removeEmojis(value);
+    }
     if (selectedList.includes(value)) {
       setSelectedList(selectedList.filter((item) => item !== value));
     } else {
@@ -105,19 +118,19 @@ export default function Preferences() {
           <div className="my-5">
             <h2 className="mb-2">Seasons:</h2>
             <div className="flex flex-wrap gap-4">
-              {weatherOptions.map((w) => (
+              {seasonOptions.map((season) => (
                 <button
-                  key={w}
+                  key={season}
                   onClick={() =>
-                    toggleSelection(w, selectedWeather, setSelectedWeather)
+                    toggleSelection(season, selectedSeasons, setSelectedSeasons, true)
                   }
-                  className={`px-4 py-1  backdrop-blur-lg rounded cursor-pointer ${
-                    selectedWeather.includes(w)
+                  className={`px-4 py-1 backdrop-blur-lg rounded cursor-pointer ${
+                    selectedSeasons.includes(removeEmojis(season))
                       ? "bg-[#A37686] rounded-3xl"
                       : "text-white"
-                  } hover:scale-105 `}
+                  } hover:scale-105`}
                 >
-                  {w}
+                  {season}
                 </button>
               ))}
             </div>

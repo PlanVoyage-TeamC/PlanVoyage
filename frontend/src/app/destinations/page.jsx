@@ -27,7 +27,7 @@ export default function Destination() {
     <div className="destinationBg w-full h-screen relative">
       <div className="bg-[#3A2C2298] w-full h-full">
         <div className="">
-          <Navbar isDestinations={false} isPreferences={false} isHome={true} />
+        <Navbar isDestinations={false} isPreferences={false} isHome={true} isProfileShown={true} />
         </div>
         <div className="overflow-x-scroll scrollbar-hide grid grid-rows-2 grid-flow-col p-4 gap-5">
           {destinations.map((item, index) => {

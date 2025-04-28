@@ -53,6 +53,13 @@ body {
   background-repeat: no-repeat;
 }
 
+.searchBg{ 
+  background-image: url('/images/searchBg.jpg'); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .text-stroke {
   -webkit-text-stroke: 1px black;
   color: black; 
