@@ -2,34 +2,37 @@
 export default function AuthCard({ isSignUp, form, errors, error, onChange, onSubmit, onToggle }) {
   return (
     <div className={`top-1/2 transform -translate-y-1/2 w-100
-         ${isSignUp ? "h-[560px]" : "h-[370px]"} bg-[#D9D9D9] p-8 rounded-xl shadow-lg mt-80`}>
+         ${isSignUp ? "h-[520px]" : "h-[370px]"} bg-[#D9D9D9] p-8 rounded-xl shadow-lg mt-80`}>
       <h2 className="text-black text-2xl font-serif text-center mb-6">
         {isSignUp ? "Create Account" : "Welcome!"}
       </h2>
 
       {isSignUp && (
-        <>
-          <input
-            type="text"
-            name="firstname"
-            placeholder="First name"
-            className="w-full p-3 mb-2 text-black rounded border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500"
-            value={form.name}
-            onChange={onChange}
-          />
-          {errors.name && <p className="text-blue-500 text-xs mb-2">{errors.name}</p>}
+        <div className="flex gap-3 mb-4">
+          <div className="w-1/2">
+            <input
+              type="text"
+              name="firstname"
+              placeholder="First name"
+              className="w-full p-3 text-black rounded border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              value={form.firstname}
+              onChange={onChange}
+            />
+            {errors.firstname && <p className="text-blue-500 text-xs mt-1">{errors.firstname}</p>}
+          </div>
 
-          <input
-            type="text"
-            name="lastname"
-            placeholder="Last name"
-            className="w-full p-3 mb-2 text-black rounded border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500"
-            value={form.name}
-            onChange={onChange}
-          />
-          {errors.name && <p className="text-blue-500 text-xs mb-2">{errors.name}</p>}
-        </>
-        
+          <div className="w-1/2">
+            <input
+              type="text"
+              name="lastname"
+              placeholder="Last name"
+              className="w-full p-3 text-black rounded border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              value={form.lastname}
+              onChange={onChange}
+            />
+            {errors.lastname && <p className="text-blue-500 text-xs mt-1">{errors.lastname}</p>}
+          </div>
+        </div>
       )}
 
       <input
