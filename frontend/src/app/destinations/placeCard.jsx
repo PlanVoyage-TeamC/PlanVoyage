@@ -3,9 +3,10 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 
-export default function PlaceCard({ id, image, name, maxprice, minprice, onToggle }) {
+export default function PlaceCard({ id, image, item_id, name, maxprice, minprice, onToggle }) {
   const [preference, setPreference] = useState(null); // 'like', 'dislike', or null
   const [isLoading, setIsLoading] = useState(false);
 
@@ -74,18 +75,19 @@ export default function PlaceCard({ id, image, name, maxprice, minprice, onToggl
       setIsLoading(false);
     }
   };
+  const router = useRouter(); 
 
   return (
-    <div className="min-w-[350px] h-[260px] flex flex-col shadow-lg rounded-2xl">
+    <div className="min-w-[350px] h-[260px] flex flex-col shadow-lg rounded-2xl cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out relative" >
       <Image
         src={image}
         alt={name}
         width={350}
         height={250}
-        className="h-[200px] w-full object-cover rounded-t-2xl"
+        className="h-[200px] w-full object-cover rounded-t-2xl" onClick={() => router.push("/destinations/" + item_id)}
       />
-      <div className="bg-[#ffffff80] text-black rounded-b-2xl flex justify-between px-4 py-2">
-        <div>
+      <div className=" bg-[#ffffff80] text-black rounded-b-2xl flex justify-between px-4 py-2" >
+        <div onClick={() => router.push("/destinations/" + item_id)}>
           <h3 className="text-[15px] font-bold">{name}</h3>
           <p className="text-base">${minprice} - ${maxprice}</p>
         </div>
@@ -103,8 +105,11 @@ export default function PlaceCard({ id, image, name, maxprice, minprice, onToggl
               preference === 'dislike' ? "text-white" : "text-black"
             }`}
           />
+          
         </div>
+         
       </div>
+      
     </div>
   );
 }

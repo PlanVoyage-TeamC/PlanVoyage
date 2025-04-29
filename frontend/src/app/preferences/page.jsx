@@ -53,6 +53,7 @@ export default function Preferences() {
     "Theme Parks & Resorts",
     "Scenic",
     "Islands",
+    "Sports"
   ];
 
   const seasonOptions = [

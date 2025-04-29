@@ -32,8 +32,8 @@ export default function Home() {
           />
         </div>
         <div className="h-screen items-center text-center mt-16">
-          <div className="font-extrabold text-7xl">START EXPLORING,</div>
-          <div className="font-extrabold text-7xl">TODAY</div>
+          <div className="font-extrabold text-white text-7xl">START EXPLORING,</div>
+          <div className="font-extrabold text-white text-7xl">TODAY</div>
            
           <SearchBar />
            {!isLoggedIn && (

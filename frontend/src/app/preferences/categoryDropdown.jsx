@@ -16,6 +16,7 @@ export default function CategoryDropdown() {
     "Historical & Cultural Sites",
     "Theme Parks & Resorts",
     "Scenic",
+    "Sports"
   ];
 
   const toggleDropdown = () => {

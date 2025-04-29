@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model } from "mongoose";
 
 const destinationSchema = new Schema({
   id: { type: Number, required: true, unique: true },
@@ -13,7 +13,7 @@ const destinationSchema = new Schema({
   Address: { type: String, required: true },
   Min_Price: { type: Number, required: true },
   Max_Price: { type: Number, required: true },
-  Currency: { type: String, required: true }
+  Currency: { type: String, required: true },
 });
 
 export default model('destinations', destinationSchema, 'destinations');

@@ -15,7 +15,7 @@ const createToken = (id) => {
 
 // Sign up route
 router.post('/signup', async (req, res) => {
-  const { name, email, password, confirmPassword } = req.body;
+  const { firstname, lastname, email, password, confirmPassword } = req.body;
 
   if (password !== confirmPassword) {
     return res.status(400).json({ error: 'Passwords do not match' });
@@ -27,7 +27,7 @@ router.post('/signup', async (req, res) => {
       return res.status(400).json({ error: 'User already exists' });
     }
 
-    const user = await User.create({ name, email, password });
+    const user = await User.create({ firstname, lastname, email, password });
     const token = createToken(user._id);
     res.status(201).json({ token });
   } catch (err) {
