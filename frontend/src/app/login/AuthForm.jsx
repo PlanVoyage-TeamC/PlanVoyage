@@ -7,7 +7,8 @@ import AuthCard from "./AuthCard";
 export default function AuthForm() {
   const [isSignUp, setIsSignUp] = useState(false);
   const [form, setForm] = useState({
-    name: "",
+    firstname: "",
+    lastname: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -18,7 +19,7 @@ export default function AuthForm() {
   const router = useRouter();
 
   const resetForm = () => {
-    setForm({ name: "", email: "", password: "", confirmPassword: "" });
+    setForm({  firstname: "", lastname: "", email: "", password: "", confirmPassword: "" });
     setErrors({});
     setSubmitError("");
   };
@@ -27,12 +28,14 @@ export default function AuthForm() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     setErrors((prev) => ({ ...prev, [e.target.name]: "" }));
   };
+  
+
   const validate = () => {
     const newErrors = {};
-    const { name, email, password, confirmPassword } = form;
+    const { firstname, lastname, email, password, confirmPassword } = form;
   
     const requiredFields = isSignUp
-      ? [name, email, password, confirmPassword]
+      ? [firstname, lastname, email, password, confirmPassword]
       : [email, password];
   
     const allFilled = requiredFields.every((field) => field.trim() !== "");
@@ -41,27 +44,41 @@ export default function AuthForm() {
       setSubmitError("Please fill in all the fields");
       return false;
     }
-    if (password.length < 8) {
-      newErrors.password = "Minimum 8 characters required";
+  
+    if (!email.includes("@") || !email.includes(".")) {
+      newErrors.email = "Invalid email address";
     }
-    if (isSignUp && password !== confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match";
+    
+    if (isSignUp) {
+      const passwordValid = 
+        password.length >= 8 &&
+        /[A-Z]/.test(password) &&
+        /[a-z]/.test(password) &&
+        /[!@#$%^&*(),.?\":{}|<>]/.test(password);
+  
+      if (!passwordValid) {
+        newErrors.password = "Password must be at least 8 characters and include uppercase, lowercase, and special character";
+      }
+  
+      if (password !== confirmPassword) {
+        newErrors.confirmPassword = "Passwords do not match";
+      }
     }
   
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
-
   };
+  
   
   const handleSubmit = async () => {
     setSubmitError("");
 
     if (!validate()) return;
 
-    const { name, email, password, confirmPassword } = form;
+    const { firstname, lastname, email, password, confirmPassword } = form;
     try {
       const endpoint = isSignUp ? "signup" : "login";
-      const payload = isSignUp ? { name, email, password, confirmPassword } : { email, password };
+      const payload = isSignUp ? { firstname, lastname, email, password, confirmPassword } : { email, password };
 
       const res = await axios.post(`http://localhost:5000/api/${endpoint}`, payload);
       localStorage.setItem("token", res.data.token);
