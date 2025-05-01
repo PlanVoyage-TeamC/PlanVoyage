@@ -12,6 +12,7 @@ function cosineSimilarity(vecA, vecB) {
 async function getUniqueActivities(allDestinations) {
   const uniqueActivities = new Set();
   allDestinations.forEach(destination => {
+
     if (destination && Array.isArray(destination.Activities)) {
       destination.Activities.forEach(activity => uniqueActivities.add(activity));
     }
@@ -173,6 +174,7 @@ function cosineSimilarity(vecA, vecB) {
 async function getUniqueActivities(allDestinations) {
   const uniqueActivities = new Set();
   allDestinations.forEach(destination => {
+
 //    console.log(destination);
     if (destination && Array.isArray(destination.Activities)) {
       destination.Activities.forEach(activity => uniqueActivities.add(activity));
@@ -292,4 +294,4 @@ export async function recommendDestinations(email) {
     console.error('Error recommending destinations:', error);
     throw error;
   }
-}*/
+
