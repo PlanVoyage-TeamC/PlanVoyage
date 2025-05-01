@@ -7,31 +7,67 @@ import { useEffect, useState } from "react";
 
 export default function Destination() {
   const [destinations, setDestinations] = useState([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      const mail = localStorage.getItem("email");
-      try {
-        const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/destinations`,{
-            params : {email: mail}
-          
+  const [recommendedDestinations, setRecommendedDestinations] = useState([]);
+
+  const fetchRecommended = async () => {
+    const mail = localStorage.getItem("email");
+    try {
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/recommendDestinations`, {
+        params: { email: mail },
       });
-        setDestinations(res.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
+      setRecommendedDestinations(res.data);
+    } catch (err) {
+      console.error("Failed to fetch recommendations", err);
+    }
+  };
+
+  const fetchData = async () => {
+    const mail = localStorage.getItem("email");
+    try {
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/destinations`, {
+        params: { email: mail },
+      });
+      setDestinations(res.data);
+      fetchRecommended(); // get recommendations too
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, []);
+
   return (
-    <div className="destinationBg w-full h-screen relative">
-      <div className="bg-[#3A2C2298] w-full h-full">
-        <div className="">
+    <div className="destinationBg w-full min-h-screen relative">
+      <div className="bg-[#3A2C2298] w-full h-full pb-10">
         <Navbar isDestinations={false} isPreferences={false} isHome={true} isProfileShown={true} />
-        </div>
-        <div className="overflow-x-scroll scrollbar-hide grid grid-rows-2 grid-flow-col p-4 gap-5">
-          {destinations.map((item, index) => {
-            return (
+
+        {/* Recommended Destinations Section */}
+        {recommendedDestinations.length > 0 && (
+          <div className="p-4">
+            <h2 className="text-2xl text-white font-bold mb-4">Recommended for You</h2>
+            <div className="overflow-x-scroll scrollbar-hide grid grid-rows-1 grid-flow-col gap-5">
+              {recommendedDestinations.map((item, index) => (
+                <PlaceCard
+                  key={`recommended-${index}`}
+                  id={item.id}
+                  image={item.Image}
+                  name={item.Loc_name}
+                  maxprice={item.Max_Price}
+                  minprice={item.Min_Price}
+                  onToggle={fetchRecommended}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Your Destinations Section */}
+        <div className="p-4">
+          <h2 className="text-2xl text-white font-bold mb-4">Your Destinations</h2>
+          <div className="overflow-x-scroll scrollbar-hide grid grid-rows-1 grid-flow-col gap-5">
+            {destinations.map((item, index) => (
               <PlaceCard
                 key={index}
                 id={item.id}
@@ -40,9 +76,10 @@ export default function Destination() {
                 name={item.Loc_name}
                 maxprice={item.Max_Price}
                 minprice={item.Min_Price}
+                onToggle={fetchRecommended}
               />
-            );
-          })}
+            ))}
+          </div>
         </div>
       </div>
       <Footer />
