@@ -7,6 +7,9 @@ import authRoutes from './routes/auth.js';
 import preferencesRoutes from "./routes/savePreferences.js";
 import userRoutes from './routes/user.js';
 import exploreRoutes from './routes/explore.js';
+import forgotPasswordRoute from './routes/forgotPassword.js'; 
+import resetPasswordRoute from './routes/resetPassword.js';
+
 const app = express();
 
 dotenv.config();
@@ -24,6 +27,8 @@ app.use("/api", authRoutes);
 app.use("/api", preferencesRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/explore', exploreRoutes);
+app.use('/api', forgotPasswordRoute);
+app.use('/api', resetPasswordRoute);
 
 // Start the server
 const PORT = process.env.PORT;
