@@ -67,7 +67,10 @@ export default function PlaceDetails() {
       <div className="flex flex-col md:flex-row gap-8  p-8 md:p-12">
         <div className="flex-1 flex flex-col justify-center gap-4">
           <p className="text-3xl text-black font-semibold">
-            Best to visit in <span className="text-blue-900">{placeDetails.Seasons.join(", ")}</span>
+            Best to visit in{" "}
+            <span className="text-blue-900">
+              {placeDetails.Seasons.join(", ")}
+            </span>
           </p>
 
           <div className="flex flex-row gap-35">
@@ -92,28 +95,28 @@ export default function PlaceDetails() {
           </div>
 
           <p className="text-xl text-black font-semibold">
-            Price Range: <span className="text-black"> 
-             ${placeDetails.Min_Price} - ${placeDetails.Max_Price}{" "}
-              
+            Price Range:{" "}
+            <span className="text-black">
+              ${placeDetails.Min_Price} - ${placeDetails.Max_Price}{" "}
             </span>
           </p>
 
           <p className="text-xl text-black font-semibold">
-            Address:{" "}
-            <span className="text-black">
-              {placeDetails.Address}
-            </span>
+            Address: <span className="text-black">{placeDetails.Address}</span>
           </p>
         </div>
 
         <div className="flex-1 flex justify-center items-center">
-          <Image
-            src="https://planvoyage-destinations.s3.us-east-2.amazonaws.com/Cities%26Lights/9870.jpg"
-            alt="Map"
-            width={400}
-            height={300}
+
+          <iframe
+            width="400"
+            height="350"
+            // style="border:0"
+            loading="lazy"
+            allowFullScreen
+            src={`https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_API_KEY}&q=${placeDetails.Address}`}
             className="rounded-lg shadow-lg object-contain"
-          />
+          ></iframe>
         </div>
       </div>
       <div className="">

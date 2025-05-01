@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const UserPreferenceSchema = new mongoose.Schema({
   email: { type: String, required: true },
-  placeId: { type: String, required: true },
+  placeId: { type: Number, required: true },
   preference: { type: String, enum: ['like', 'dislike'], required: true }
 }, { timestamps: true });
 
