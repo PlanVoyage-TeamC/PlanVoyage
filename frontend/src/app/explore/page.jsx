@@ -10,11 +10,15 @@ import SearchBar from "../components/SearchBar";
 export default function Explore() {
   const [results, setResults] = useState([]);
   const [searchQueryInput, setSearchQueryInput] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("search") || "";
   const router = useRouter();
 
   useEffect(() => {
+    const email = localStorage.getItem("email"); 
+    if (email) setIsLoggedIn(true);
+
     setSearchQueryInput(searchQuery);
     const fetchData = async () => {
       try {
@@ -41,7 +45,7 @@ export default function Explore() {
   return (
     <div className="searchBg relative w-full h-screen">
       <div className="bg-[#3A2C2298] w-full min-h-screen">
-        <Navbar isHome={true} />
+        <Navbar isHome={true} isProfileShown={isLoggedIn} />
         <SearchBar />
 
         <div className="px-6 py-4">
@@ -56,7 +60,7 @@ export default function Explore() {
             No destinations found for "{searchQuery}".
           </div>
         ) : (
-          <div className="overflow-x-scroll scrollbar-hide grid grid-rows-2 grid-flow-col p-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center px-4 pb-10">
               {results.map((item, index) => (
                 <PlaceCard
                   key={index}
