@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import connectDB from "./config/dbconfig.js";
 import dotenv from "dotenv";
-import { recommendDestinations } from './routes/recommendDestinations.js';
 import destRoutes from "./routes/fetchDestinations.js";
 import authRoutes from './routes/auth.js';
 import preferencesRoutes from "./routes/savePreferences.js";
@@ -13,8 +12,7 @@ import similarDestRoutes from './routes/similarDestinations.js'
 const app = express();
 
 dotenv.config();
-
-const app = express();
+connectDB();
 app.use(express.json()); 
 app.use(cors());
 
