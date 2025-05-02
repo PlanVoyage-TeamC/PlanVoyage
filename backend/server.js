@@ -2,18 +2,19 @@ import express from "express";
 import cors from "cors";
 import connectDB from "./config/dbconfig.js";
 import dotenv from "dotenv";
-import { recommendDestinations } from './routes/recommendDestinations.js';
 import destRoutes from "./routes/fetchDestinations.js";
 import authRoutes from './routes/auth.js';
 import preferencesRoutes from "./routes/savePreferences.js";
 import userRoutes from './routes/user.js';
 import exploreRoutes from './routes/explore.js';
+import recommendRoutes from './routes/recommendDestinationsRoute.js'
+import similarDestRoutes from './routes/similarDestinations.js'
 import forgotPasswordRoute from './routes/forgotPassword.js'; 
 import resetPasswordRoute from './routes/resetPassword.js';
+const app = express();
 
 dotenv.config();
-
-const app = express();
+connectDB();
 app.use(express.json()); 
 app.use(cors());
 
@@ -28,33 +29,9 @@ app.use('/api/users', userRoutes);
 app.use('/api/explore', exploreRoutes);
 app.use('/api', forgotPasswordRoute);
 app.use('/api', resetPasswordRoute);
+app.use('/api', recommendRoutes);
+app.use('/api', similarDestRoutes);
 
-async function startServer() {
-  try {
-    await connectDB();  // wait for DB connection
-    console.log('✅ Database connected');
-
-    // Run recommendation logic after DB is connected
-    await runRecommendation();
-
-    const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
-  } catch (error) {
-    console.error('❌ Failed to start server:', error);
-    process.exit(1);
-  }
-}
-
-async function runRecommendation() {
-  try {
-    const userEmail = 'asdf@g.com'; // Pass user's email
-    const recommendations = await recommendDestinations(userEmail);
-    console.log('Top Recommendations:', recommendations);
-  } catch (error) {
-    console.error('Error recommending destinations:', error);
-  }
-}
-
-startServer();
-
-
+// Start the server
+const PORT = process.env.PORT;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
