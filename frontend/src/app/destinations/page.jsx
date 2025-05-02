@@ -48,12 +48,13 @@ export default function Destination() {
         {/* Recommended Destinations Section */}
         {recommendedDestinations.length > 0 && (
           <div className="p-4">
-            <h2 className="text-2xl text-white font-bold mb-4">Recommended for You</h2>
+            <h2 className="text-2xl text-white font-bold mb-4">PlanVoyage Recommends You</h2>
             <div className="overflow-x-scroll scrollbar-hide grid grid-rows-1 grid-flow-col gap-5">
               {recommendedDestinations.map((item, index) => (
                 <PlaceCard
                   key={`recommended-${index}`}
                   id={item.id}
+                  item_id={item._id}
                   image={item.Image}
                   name={item.Loc_name}
                   maxprice={item.Max_Price}

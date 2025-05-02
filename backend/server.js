@@ -9,6 +9,8 @@ import userRoutes from './routes/user.js';
 import exploreRoutes from './routes/explore.js';
 import recommendRoutes from './routes/recommendDestinationsRoute.js'
 import similarDestRoutes from './routes/similarDestinations.js'
+import forgotPasswordRoute from './routes/forgotPassword.js'; 
+import resetPasswordRoute from './routes/resetPassword.js';
 const app = express();
 
 dotenv.config();
@@ -25,6 +27,8 @@ app.use("/api", authRoutes);
 app.use("/api", preferencesRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/explore', exploreRoutes);
+app.use('/api', forgotPasswordRoute);
+app.use('/api', resetPasswordRoute);
 app.use('/api', recommendRoutes);
 app.use('/api', similarDestRoutes);
 
