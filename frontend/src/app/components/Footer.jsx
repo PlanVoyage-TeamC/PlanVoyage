@@ -13,7 +13,7 @@ export default function Footer() {
       </div>
       <div className="md:w-1/2 text-center ">
         <h1 className="text-xl font-bold">Contact</h1>
-        <p className="mt-2">planvoyage@gmail.com</p>
+        <p className="mt-2">planvoyage25@gmail.com</p>
       </div>
     </div>
   );
