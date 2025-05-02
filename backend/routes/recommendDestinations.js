@@ -140,6 +140,7 @@ export async function recommendDestinations(email) {
 
     // Step 7: Return Top 10
     return finalRecommendations.slice(0, 10).map(rec => ({
+      _id: rec.destination._id,
       id: rec.destination.id,
       Loc_name: rec.destination.Loc_name,
       similarity: rec.similarity.toFixed(3),

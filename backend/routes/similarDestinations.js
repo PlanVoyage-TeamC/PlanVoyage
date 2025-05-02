@@ -44,6 +44,7 @@ router.get("/similar/:id", async (req, res) => {
 
     scored.sort((a, b) => b.score - a.score);
     const topSimilar = scored.slice(0, 5).map(({ destination }) => ({
+      _id: destination._id,
       id: destination.id,
       Loc_name: destination.Loc_name,
       Image: destination.Image,
