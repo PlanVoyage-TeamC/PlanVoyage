@@ -67,7 +67,7 @@ export default function PlaceCard({ id, image, item_id, name, maxprice, minprice
   return (
     <div className="min-w-[350px] h-[260px] flex flex-col shadow-lg rounded-2xl cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out relative">
       <Image
-        src={image}
+        src={image.trim()}
         alt={name}
         width={350}
         height={250}
