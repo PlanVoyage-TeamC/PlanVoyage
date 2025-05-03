@@ -10,7 +10,7 @@ export default function CategoryDropdown() {
     "Beaches",
     "Mountains",
     "Cities & Lights",
-    "Deserts",
+    "Desserts",
     "Islands",
     "Forests & Jungles",
     "Historical & Cultural Sites",
