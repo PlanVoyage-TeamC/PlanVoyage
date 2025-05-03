@@ -20,23 +20,24 @@ router.get("/destinations", async (req, res) => {
         Seasons = [],
         Travel_Partner = [],
         Activities = [],
-        // Budget,
       } = preferences;
       const userBudget = parseFloat(preferences.Budget) || 100000;
 
-      const matchingDestinations = await destinationModel.find({
-        Category: { $in: Category },
-        Seasons: { $in: Seasons },
-        Travel_Partner: { $in: Travel_Partner },
-        Activities: { $in: Activities },
-        $expr: {
-          $lte: [
-            { $divide: [{ $add: ['$Min_Price', '$Max_Price'] }, 2] },
-            userBudget
-          ]
-        }
-      });
+      const query = {};
 
+      if (Category.length > 0) query.Category = { $in: Category };
+      if (Seasons.length > 0) query.Seasons = { $in: Seasons };
+      if (Travel_Partner.length > 0) query.Travel_Partner = { $in: Travel_Partner };
+      if (Activities.length > 0) query.Activities = { $in: Activities };
+
+      query.$expr = {
+        $lte: [
+          { $divide: [{ $add: ['$Min_Price', '$Max_Price'] }, 2] },
+          userBudget
+        ]
+      };
+
+      const matchingDestinations = await destinationModel.find(query);
       return res.status(200).json(matchingDestinations);
     } 
      else {
