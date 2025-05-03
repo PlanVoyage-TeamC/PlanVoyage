@@ -13,6 +13,7 @@ export default function Destination() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const searchParams = useSearchParams();
   const category = searchParams.get("category");
+  const [hasLikes, setHasLikes] = useState(true);
 
   const fetchRecommended = async () => {
     const mail = localStorage.getItem("email");
@@ -21,8 +22,10 @@ export default function Destination() {
         params: { email: mail },
       });
       setRecommendedDestinations(res.data);
+      setHasLikes(res.data.length > 0);
     } catch (err) {
       console.error("Failed to fetch recommendations", err);
+      setHasLikes(false);
     }
   };
 
@@ -49,7 +52,11 @@ export default function Destination() {
     <div className="destinationBg w-full min-h-screen relative">
       <div className="bg-[#3A2C2298] w-full h-full pb-10">
         <Navbar isDestinations={false} isPreferences={false} isHome={true} isProfileShown={true} />
-
+        {!category && !hasLikes && (
+           <div className="text-white text-2xl font-semibold px-4 pt-6">
+              Start liking destinations to see recommendations!
+          </div>
+        )}
         {/* Recommended Destinations Section */}
         {recommendedDestinations.length > 0 && (
           <div className="p-4">
