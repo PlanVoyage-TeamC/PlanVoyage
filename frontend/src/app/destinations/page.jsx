@@ -43,7 +43,7 @@ export default function Destination() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [category]);
 
   return (
     <div className="destinationBg w-full min-h-screen relative">
