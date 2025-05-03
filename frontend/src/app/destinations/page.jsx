@@ -5,11 +5,14 @@ import Navbar from "../components/Navbar";
 import PlaceCard from "./placeCard";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function Destination() {
   const [destinations, setDestinations] = useState([]);
   const [recommendedDestinations, setRecommendedDestinations] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const searchParams = useSearchParams();
+  const category = searchParams.get("category");
 
   const fetchRecommended = async () => {
     const mail = localStorage.getItem("email");
@@ -27,10 +30,12 @@ export default function Destination() {
     const mail = localStorage.getItem("email");
     try {
       const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/destinations`, {
-        params: { email: mail },
+        params: category ? { category } : { email: mail },
       });
       setDestinations(res.data);
-      fetchRecommended(); // get recommendations too
+      if (!category) {
+        fetchRecommended(mail); // fetch only when not in category mode
+      }
     } catch (err) {
       console.log(err);
     }

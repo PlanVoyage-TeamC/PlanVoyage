@@ -4,9 +4,16 @@ import destinationModel from "../models/Destinations.js";
 import preferencesModel from "../models/Preferences.js";
 
 router.get("/destinations", async (req, res) => {
-  const { email } = req.query;
+  const { email, category } = req.query;
 
   try {
+    if (category) {
+      const destinations = await destinationModel.find({
+        Category: { $regex: new RegExp(`^${category}$`, "i") }
+      });
+      return res.status(200).json(destinations);
+    }
+    
     if (email) {
       // Logged-in user with preferences
       const preferences = await preferencesModel.findOne({ email });
