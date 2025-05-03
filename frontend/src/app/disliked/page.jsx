@@ -30,7 +30,7 @@ export default function DislikesPage() {
   }, []);
 
   
-  if (loading) return <div>Loading...</div>;
+//  if (loading) return <div>Loading...</div>;
 
   return (
     <div className="destinationBg w-full h-screen relative">
@@ -48,7 +48,8 @@ export default function DislikesPage() {
                 <PlaceCard
                   key={place.id}
                   id={place.id}
-                  image={place.Image}
+                  item_id={place._id}
+                  image={place.Image} 
                   name={place.Loc_name}
                   maxprice={place.Max_Price}
                   minprice={place.Min_Price}

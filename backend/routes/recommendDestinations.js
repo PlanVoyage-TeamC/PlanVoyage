@@ -9,10 +9,9 @@ function cosineSimilarity(vecA, vecB) {
   return dotProduct / (magnitudeA * magnitudeB);
 }
 
-async function getUniqueActivities(allDestinations) {
+async function getUniqueActivities(destinations) {
   const uniqueActivities = new Set();
-  allDestinations.forEach(destination => {
-
+  destinations.forEach(destination => {
     if (destination && Array.isArray(destination.Activities)) {
       destination.Activities.forEach(activity => uniqueActivities.add(activity));
     }
@@ -20,8 +19,8 @@ async function getUniqueActivities(allDestinations) {
   return Array.from(uniqueActivities);
 }
 
-async function createFeatureVector(destination, allActivities) {
-  const predefinedCategories = ['Islands', 'Mountains', 'Beaches', 'Cities & Lights', 'Desserts', 'Historical & Cultural Sites', 'Scenic'];
+async function createFeatureVector(destination, allActivities, maxPrice) {
+  const predefinedCategories = ['Islands', 'Mountains', 'Beaches', 'Cities & Lights', 'Desserts', 'Historical & Cultural Sites', 'Scenic', 'Theme Parks & Resorts','Forests & Jungles','Sports'];
   const seasons = ['Summer', 'Spring', 'Fall', 'Winter'];
   const travelPartners = ['Solo', 'Couple', 'Family', 'Friends'];
 
@@ -44,17 +43,17 @@ async function createFeatureVector(destination, allActivities) {
   });
 
   const avgPrice = (destination.Min_Price + destination.Max_Price) / 2;
-  const normalizedPrice = avgPrice / 1000;
+  const normalizedPrice = maxPrice ? avgPrice / maxPrice : avgPrice / 1000;
   vector.push(normalizedPrice);
 
   return vector;
 }
 
-// ✅ Main function using User Genome Profile
 export async function recommendDestinations(email) {
   try {
     const userLikes = await UserPreference.find({ email, preference: 'like' });
     const userDislikes = await UserPreference.find({ email, preference: 'dislike' });
+    const userBudgetPref = await UserPreference.findOne({ email, Budget: { $exists: true } });
 
     if (!userLikes.length) {
       console.log('No liked destinations found for this user.');
@@ -62,37 +61,54 @@ export async function recommendDestinations(email) {
     }
 
     const allDestinations = await Destination.find();
-    const allActivities = await getUniqueActivities(allDestinations);
 
-    // Step 1: Build user profile vector
+    let filteredDestinations = allDestinations;
+    let userBudget = null;
+
+    if (userBudgetPref?.Budget) {
+      userBudget = parseFloat(userBudgetPref.Budget);
+      if (!isNaN(userBudget)) {
+        filteredDestinations = allDestinations.filter(dest => {
+          const avg = (dest.Min_Price + dest.Max_Price) / 2;
+          return avg <= userBudget;
+        });
+      }
+    }
+
+    if (!filteredDestinations.length) {
+      console.log('No destinations under budget.');
+      return [];
+    }
+
+    const allActivities = await getUniqueActivities(filteredDestinations);
+    const maxAvgPrice = Math.max(...filteredDestinations.map(d => (d.Min_Price + d.Max_Price) / 2));
+
     const likedVectors = [];
     for (const like of userLikes) {
-      const likedDestination = allDestinations.find(dest => dest.id === like.placeId);
+      const likedDestination = filteredDestinations.find(dest => dest.id === like.placeId);
       if (likedDestination) {
-        const vector = await createFeatureVector(likedDestination, allActivities);
+        const vector = await createFeatureVector(likedDestination, allActivities, maxAvgPrice);
         likedVectors.push(vector);
       }
     }
 
     if (!likedVectors.length) {
-      console.log('No valid liked destinations found.');
+      console.log('No liked destinations found in budget.');
       return [];
     }
 
-    // Step 2: Average vectors for likes
     const profileVector = likedVectors[0].map((_, idx) => {
       const sum = likedVectors.reduce((acc, vec) => acc + vec[idx], 0);
       return sum / likedVectors.length;
     });
 
-    // Step 3: Build dislike profile vector (if any)
     let dislikeProfileVector = null;
     if (userDislikes.length) {
       const dislikedVectors = [];
       for (const dislike of userDislikes) {
-        const dislikedDestination = allDestinations.find(dest => dest.id === dislike.placeId);
+        const dislikedDestination = filteredDestinations.find(dest => dest.id === dislike.placeId);
         if (dislikedDestination) {
-          const vector = await createFeatureVector(dislikedDestination, allActivities);
+          const vector = await createFeatureVector(dislikedDestination, allActivities, maxAvgPrice);
           dislikedVectors.push(vector);
         }
       }
@@ -104,49 +120,41 @@ export async function recommendDestinations(email) {
       }
     }
 
-    // Step 4: Calculate similarity for each destination
     const recommendations = [];
 
-    for (const destination of allDestinations) {
-      const destinationVector = await createFeatureVector(destination, allActivities);
+    for (const destination of filteredDestinations) {
+      const destinationVector = await createFeatureVector(destination, allActivities, maxAvgPrice);
       let similarity = cosineSimilarity(profileVector, destinationVector);
 
-      // Apply dislike penalty if applicable
       if (dislikeProfileVector) {
-        const dislikeSimilarity = cosineSimilarity(dislikeProfileVector, destinationVector);
-        similarity = similarity - 0.5 * dislikeSimilarity; // Adjust weight (0.5) as needed
-        similarity = Math.max(0, similarity); // Optional: clamp to not go below 0
+        const dislikeSim = cosineSimilarity(dislikeProfileVector, destinationVector);
+        similarity = Math.max(0, similarity - 0.5 * dislikeSim);
       }
 
-      recommendations.push({
-        destination,
-        similarity
-      });
+      recommendations.push({ destination, similarity });
     }
 
-    // Step 5: Sort and filter
     recommendations.sort((a, b) => b.similarity - a.similarity);
 
+    const likedIds = new Set(userLikes.map(like => like.placeId));
     const seen = new Set();
-    const uniqueRecommendations = recommendations.filter(rec => {
-      if (seen.has(rec.destination.id)) return false;
-      seen.add(rec.destination.id);
+    const final = recommendations.filter(rec => {
+      const id = rec.destination.id;
+      if (seen.has(id) || likedIds.has(id)) return false;
+      seen.add(id);
       return true;
     });
 
-    // Step 6: Exclude already liked places
-    const likedIds = new Set(userLikes.map(like => like.placeId));
-    const finalRecommendations = uniqueRecommendations.filter(rec => !likedIds.has(rec.destination.id));
-
-    // Step 7: Return Top 10
-    return finalRecommendations.slice(0, 10).map(rec => ({
+    return final.slice(0, 15).map(rec => ({
       _id: rec.destination._id,
       id: rec.destination.id,
       Loc_name: rec.destination.Loc_name,
       similarity: rec.similarity.toFixed(3),
       Image: rec.destination.Image,
       State: rec.destination.State,
-      Activities: rec.destination.Activities
+      Activities: rec.destination.Activities,
+      Min_Price: rec.destination.Min_Price,
+      Max_Price: rec.destination.Max_Price
     }));
 
   } catch (error) {
@@ -154,3 +162,4 @@ export async function recommendDestinations(email) {
     throw error;
   }
 }
+

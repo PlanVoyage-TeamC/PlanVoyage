@@ -29,7 +29,7 @@ export default function LikesPage() {
     fetchLikedPlaces();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+//  if (loading) return <div>Loading...</div>;
 
   return (
     <div className="destinationBg w-full h-screen relative">
@@ -47,6 +47,7 @@ export default function LikesPage() {
                 <PlaceCard
                   key={place.id}
                   id={place.id}
+                  item_id={place._id}
                   image={place.Image}
                   name={place.Loc_name}
                   maxprice={place.Max_Price}

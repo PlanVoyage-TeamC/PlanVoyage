@@ -22,12 +22,19 @@ router.get("/destinations", async (req, res) => {
         Activities = [],
         // Budget,
       } = preferences;
+      const userBudget = parseFloat(preferences.Budget) || 100000;
 
       const matchingDestinations = await destinationModel.find({
         Category: { $in: Category },
         Seasons: { $in: Seasons },
         Travel_Partner: { $in: Travel_Partner },
         Activities: { $in: Activities },
+        $expr: {
+          $lte: [
+            { $divide: [{ $add: ['$Min_Price', '$Max_Price'] }, 2] },
+            userBudget
+          ]
+        }
       });
 
       return res.status(200).json(matchingDestinations);
