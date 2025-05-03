@@ -3,10 +3,18 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { UserCircle } from "lucide-react";
 
-export default function Navbar({ isDestinations, isHome, isPreferences, isProfileShown }) {
+export default function Navbar({ isDestinations, isHome, isPreferences }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
   const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const email = localStorage.getItem("email");
+      setIsLoggedIn(!!email); // true if email exists
+    }
+  }, []);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -23,8 +31,8 @@ export default function Navbar({ isDestinations, isHome, isPreferences, isProfil
         <p className="cursor-pointer" onClick={() => router.push("#footer")}>Contact Us</p>
       </div>
 
-      {/* Show profile button only if logged in */}
-      {isProfileShown && (isHome || isDestinations) && (
+      {/* Show profile button only if user is signed in */}
+      {isLoggedIn && (isHome || isDestinations) && (
         <div className="absolute top-4 right-4 z-50" ref={dropdownRef}>
           <UserCircle
             size={36}
