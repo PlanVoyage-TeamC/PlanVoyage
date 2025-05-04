@@ -97,10 +97,8 @@ export default function Explore() {
       </div>
 
       {showLoginPopup && (
-        <div className="fixed inset-0 bg-[#3A2C2280] bg-opacity-30 backdrop-blur-sm flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-[#3A2C2280] bg-opacity-30 backdrop-blur flex items-center justify-center z-50">
           <div className="relative bg-[#D9D9D9] bg-opacity-90 p-8 rounded-lg w-[400px] shadow-2xl">
-
-            {/* Close (X) Button */}
             <button
               className="absolute top-3 right-3 text-gray-600 hover:text-black text-2xl font-bold"
               onClick={() => setShowLoginPopup(false)}
@@ -110,7 +108,7 @@ export default function Explore() {
             </button>
 
             <h2 className="text-black text-2xl font-serif text-center mb-4">Login Required</h2>
-            <p className="text-blue-500 text-md font-serif text-center mb-2">
+            <p className="text-red-500 text-md font-serif text-center mb-2">
               Please Login or SignUp to view more details about this place. </p> 
 
             <div className="flex justify-center">
