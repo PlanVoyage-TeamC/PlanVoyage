@@ -53,7 +53,7 @@ export default function Destination() {
         {recommendedDestinations.length > 0 && (
           <div className="p-4">
             <h2 className="text-2xl text-white font-bold mb-4">PlanVoyage Recommends You</h2>
-            <div className="overflow-x-scroll scrollbar-hide grid grid-rows-1 grid-flow-col gap-5">
+            <div className="overflow-x-scroll p-4 scrollbar-hide grid grid-rows-1 grid-flow-col gap-5">
               {recommendedDestinations.map((item) => (
                 <PlaceCard
                   key={item._id} 
@@ -73,7 +73,7 @@ export default function Destination() {
         {/* Your Destinations Section */}
         <div className="p-4">
           <h2 className="text-2xl text-white font-bold mb-4">Your Destinations</h2>
-          <div className="overflow-x-scroll scrollbar-hide grid grid-rows-1 grid-flow-col gap-5">
+          <div className="overflow-x-scroll p-4 scrollbar-hide grid grid-rows-1 grid-flow-col gap-5">
             {destinations.map((item) => (
               <PlaceCard
                 key={item._id}

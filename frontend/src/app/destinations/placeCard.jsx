@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function PlaceCard({ id, image, item_id, name, maxprice, minprice, onToggle }) {
   const [preference, setPreference] = useState(null);
@@ -64,6 +65,7 @@ export default function PlaceCard({ id, image, item_id, name, maxprice, minprice
       setPreference(finalPreference === "none" ? null : finalPreference);
 
       if (onToggle) onToggle(id);
+      toast(`Destination added to ${newPreference}s !`)
     } catch (err) {
       console.error("Preference update error:", err);
     } finally {
@@ -72,7 +74,7 @@ export default function PlaceCard({ id, image, item_id, name, maxprice, minprice
   };
 
   return (
-    <div className="min-w-[350px] h-[260px] flex flex-col shadow-lg rounded-2xl cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out relative">
+    <div className="w-[350px] h-[270px] flex flex-col shadow-lg rounded-2xl cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out relative">
       <Image
         src={image.trim()}
         alt={name}

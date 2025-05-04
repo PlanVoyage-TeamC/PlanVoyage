@@ -64,4 +64,20 @@ body {
   -webkit-text-stroke: 1px black;
   color: black; 
 }
+/* Target the entire scrollbar */
+::-webkit-scrollbar {
+  width: 0px;
+  height: 2px;
+   /* Adjust the width */
+}
 
+/* Style the thumb */
+::-webkit-scrollbar-thumb {
+  background-color: #ffffff; /* Set the color */
+  border-radius: 5px; /* Add rounded corners */
+}
+
+/* Style the track */
+::-webkit-scrollbar-track {
+  background-color: black; /* Set the background color */
+}
