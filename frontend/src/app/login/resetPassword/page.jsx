@@ -9,6 +9,7 @@ export default function ResetPassword() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false); 
   const [showNew, setShowNew] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -19,13 +20,15 @@ export default function ResetPassword() {
   }, []);
 
   const handleResetPassword = async () => {
-    if (!validatePassword(newPassword)) { 
+    if (!validatePassword(newPassword)) {
       setMessage("At least 8 characters with a mix of uppercase, lowercase, number, and special symbol.");
+      setIsSuccess(false);
       return;
     }
 
     if (newPassword !== confirmPassword) {
       setMessage("Passwords do not match.");
+      setIsSuccess(false);
       return;
     }
 
@@ -35,8 +38,10 @@ export default function ResetPassword() {
         newPassword,
       });
       setMessage(response.data.message);
+      setIsSuccess(true);
     } catch (err) {
       setMessage(err.response?.data?.message || "Something went wrong");
+      setIsSuccess(false);
     }
   };
 
@@ -77,7 +82,13 @@ export default function ResetPassword() {
               {showConfirm ? <FaRegEyeSlash size={16} /> : <FaRegEye size={16} />}
             </div>
           </div>
-          {message && <p className="text-red-500 text-xs mb-2">{message}</p>}
+
+          {message && (
+            <p className={`text-xs mb-2 ${isSuccess ? "text-green-600" : "text-red-500"}`}>
+              {message}
+            </p>
+          )}
+
           <button
             onClick={handleResetPassword}
             className="w-20 bg-[#00800050] text-black font-serif py-2 px-4 rounded-lg ml-31 hover:bg-[#00800080] transition"
