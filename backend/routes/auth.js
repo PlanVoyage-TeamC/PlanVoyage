@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
 const router = express.Router();
+
 const createToken = (id) => {
   const JWT_SECRET = process.env.JWT_SECRET;
   
@@ -29,7 +30,8 @@ router.post('/signup', async (req, res) => {
 
     const user = await User.create({ firstname, lastname, email, password });
     const token = createToken(user._id);
-    res.status(201).json({ token });
+    
+    res.status(201).json({ token, lastname: user.lastname });
   } catch (err) {
     console.error("Error during sign up:", err);
     res.status(500).json({ error: 'Server error during sign up' });
@@ -47,11 +49,33 @@ router.post('/login', async (req, res) => {
     }
 
     const token = createToken(user._id);
-    console.log("JWT_SECRET in createToken:", process.env.JWT_SECRET);
-    res.status(200).json({ token });
+
+    res.status(200).json({ token, lastname: user.lastname });
   } catch (err) {
     console.error("Error during login:", err);
     res.status(500).json({ error: 'Server error during login' });
+  }
+});
+
+// Fetch User by email route
+router.get('/getUser', async (req, res) => {
+  const { email } = req.query;
+
+  if (!email) {
+    return res.status(400).json({ error: 'Email query parameter is required' });
+  }
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.status(200).json({ lastname: user.lastname }); 
+  } catch (err) {
+    console.error("Error fetching user:", err);
+    res.status(500).json({ error: 'Server error while fetching user' });
   }
 });
 

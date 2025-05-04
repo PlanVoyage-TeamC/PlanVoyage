@@ -67,26 +67,30 @@ export default function AuthForm() {
 
   const handleSubmit = async () => {
     setSubmitError("");
-
+  
     if (!validate()) return;
-
+  
     const { firstname, lastname, email, password, confirmPassword } = form;
     try {
       const endpoint = isSignUp ? "signup" : "login";
       const payload = isSignUp ? { firstname, lastname, email, password, confirmPassword } : { email, password };
-
+  
       const res = await axios.post(`http://localhost:5000/api/${endpoint}`, payload);
+  
       localStorage.setItem("token", res.data.token);
-      if (res.status === 200 || res.status === 201) {
-        localStorage.setItem("email", email);
-      }
+      localStorage.setItem("email", email);
       localStorage.setItem("loggedIn", "true");
+
+      if (res.data.lastname) {
+        localStorage.setItem("lastname", res.data.lastname);
+      }
+  
       router.push(isSignUp ? "/preferences" : "/destinations");
     } catch (err) {
       setSubmitError(err.response?.data?.error || "Something went wrong");
     }
   };
-
+    
   return (
     <AuthCard
       isSignUp={isSignUp}
