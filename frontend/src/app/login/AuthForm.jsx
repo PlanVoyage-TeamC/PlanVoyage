@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import AuthCard from "./AuthCard";
-import { validatePassword } from "./validatePassword";
+import {validatePassword} from './validatePassword';
 
 export default function AuthForm() {
   const [isSignUp, setIsSignUp] = useState(false);
