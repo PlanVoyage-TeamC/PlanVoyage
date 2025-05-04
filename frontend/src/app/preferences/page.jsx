@@ -47,7 +47,7 @@ export default function Preferences() {
     "Beaches",
     "Mountains",
     "Cities & Lights",
-    "Deserts",
+    "Desserts",
     "Forests & Jungles",
     "Historical & Cultural Sites",
     "Theme Parks & Resorts",
