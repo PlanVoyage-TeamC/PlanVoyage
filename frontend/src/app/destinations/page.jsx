@@ -17,9 +17,12 @@ export default function Destination() {
   const fetchRecommended = async () => {
     const mail = localStorage.getItem("email");
     try {
-      const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/recommendDestinations`, {
-        params: { email: mail },
-      });
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/recommendDestinations`,
+        {
+          params: { email: mail },
+        }
+      );
       setRecommendedDestinations(res.data);
       setHasLikes(res.data.length > 0);
     } catch (err) {
@@ -31,9 +34,12 @@ export default function Destination() {
   const fetchData = async () => {
     const mail = localStorage.getItem("email");
     try {
-      const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/destinations`, {
-        params: category ? { category } : { email: mail },
-      });
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/destinations`,
+        {
+          params: category ? { category } : { email: mail },
+        }
+      );
       setDestinations(res.data);
       if (!category) {
         fetchRecommended(mail);
@@ -49,21 +55,28 @@ export default function Destination() {
 
   return (
     <div className="destinationBg w-full min-h-screen relative">
-      <div className="bg-[#3A2C2298] w-full h-full pb-10">
-        <Navbar isDestinations={false} isPreferences={false} isHome={true} isProfileShown={true} />
+      <div className="bg-[#3A2C2298] w-full h-full pb-10 ">
+        <Navbar
+          isDestinations={false}
+          isPreferences={false}
+          isHome={true}
+          isProfileShown={true}
+        />
         {!category && !hasLikes && (
-           <div className="text-white text-2xl font-semibold px-4 pt-6">
-              Start liking destinations to see recommendations!
+          <div className="text-white text-2xl font-semibold px-4 pt-6">
+            Start liking destinations to see recommendations!
           </div>
         )}
         {/* Recommended Destinations Section */}
         {recommendedDestinations.length > 0 && (
           <div className="p-4">
-            <h2 className="text-2xl text-white font-bold mb-4">PlanVoyage Recommends You</h2>
+            <h2 className="text-2xl text-white font-bold mb-4">
+              PlanVoyage Recommends You
+            </h2>
             <div className="overflow-x-scroll p-4 scrollbar-hide grid grid-rows-1 grid-flow-col gap-5">
               {recommendedDestinations.map((item) => (
                 <PlaceCard
-                  key={item._id} 
+                  key={item._id}
                   id={item.id}
                   item_id={item._id}
                   image={item.Image}
@@ -79,7 +92,9 @@ export default function Destination() {
 
         {/* Your Destinations Section */}
         <div className="p-4">
-          <h2 className="text-2xl text-white font-bold mb-4">Your Destinations</h2>
+          <h2 className="text-2xl text-white font-bold mb-4">
+            Your Destinations
+          </h2>
           <div className="overflow-x-scroll p-4 scrollbar-hide grid grid-rows-1 grid-flow-col gap-5">
             {destinations.map((item) => (
               <PlaceCard
@@ -100,5 +115,3 @@ export default function Destination() {
     </div>
   );
 }
-
-
