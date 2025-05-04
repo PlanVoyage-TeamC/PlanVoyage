@@ -103,7 +103,7 @@ export default function AuthCard({isSignUp, form, errors, error, onChange, onSub
               )}
             </div>
           </div>
-          {errors.confirmPassword && <p className="text-blue-500 text-xs mb-2">{errors.confirmPassword}</p>}
+          {errors.confirmPassword && <p className="text-red-500 text-xs mb-2">{errors.confirmPassword}</p>}
         </>
       )}
 

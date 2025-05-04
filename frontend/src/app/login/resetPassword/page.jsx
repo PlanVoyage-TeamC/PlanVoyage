@@ -20,7 +20,7 @@ export default function ResetPassword() {
 
   const handleResetPassword = async () => {
     if (!validatePassword(newPassword)) { 
-      setMessage("At least 8 characters with a mix of uppercase, lowercase, numbers, and special symbols.");
+      setMessage("At least 8 characters with a mix of uppercase, lowercase, number, and special symbol.");
       return;
     }
 
@@ -77,15 +77,13 @@ export default function ResetPassword() {
               {showConfirm ? <FaRegEyeSlash size={16} /> : <FaRegEye size={16} />}
             </div>
           </div>
-
+          {message && <p className="text-red-500 text-xs mb-2">{message}</p>}
           <button
             onClick={handleResetPassword}
             className="w-20 bg-[#00800050] text-black font-serif py-2 px-4 rounded-lg ml-31 hover:bg-[#00800080] transition"
           >
             Reset
           </button>
-
-          {message && <p className="text-center text-sm text-green-600 mt-4">{message}</p>}
         </div>
       </div>
     </div>
