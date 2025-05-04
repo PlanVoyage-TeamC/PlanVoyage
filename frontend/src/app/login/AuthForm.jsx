@@ -75,7 +75,7 @@ export default function AuthForm() {
       const endpoint = isSignUp ? "signup" : "login";
       const payload = isSignUp ? { firstname, lastname, email, password, confirmPassword } : { email, password };
   
-      const res = await axios.post(`http://localhost:5000/api/${endpoint}`, payload);
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/${endpoint}`, payload);
   
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("email", email);
