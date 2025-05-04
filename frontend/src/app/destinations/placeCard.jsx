@@ -6,7 +6,15 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
-export default function PlaceCard({ id, image, item_id, name, maxprice, minprice, onToggle }) {
+export default function PlaceCard({
+  id,
+  image,
+  item_id,
+  name,
+  maxprice,
+  minprice,
+  onToggle,
+}) {
   const [preference, setPreference] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -20,16 +28,24 @@ export default function PlaceCard({ id, image, item_id, name, maxprice, minprice
 
       try {
         const [likeRes, dislikeRes] = await Promise.all([
-          axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/liked-places`, {
-            params: { email },
-          }),
-          axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/disliked-places`, {
-            params: { email },
-          }),
+          axios.get(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/liked-places`,
+            {
+              params: { email },
+            }
+          ),
+          axios.get(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/disliked-places`,
+            {
+              params: { email },
+            }
+          ),
         ]);
 
-        const isLiked = likeRes.data.likedPlaces.some(p => p.id === id);
-        const isDisliked = dislikeRes.data.dislikedPlaces.some(p => p.id === id);
+        const isLiked = likeRes.data.likedPlaces.some((p) => p.id === id);
+        const isDisliked = dislikeRes.data.dislikedPlaces.some(
+          (p) => p.id === id
+        );
 
         if (isMounted) {
           if (isLiked) setPreference("like");
@@ -54,18 +70,26 @@ export default function PlaceCard({ id, image, item_id, name, maxprice, minprice
 
     setIsLoading(true);
     try {
-      const finalPreference = preference === newPreference ? "none" : newPreference;
+      const finalPreference =
+        preference === newPreference ? "none" : newPreference;
 
-      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/set-preference`, {
-        email,
-        placeId: id,
-        preference: finalPreference,
-      });
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/set-preference`,
+        {
+          email,
+          placeId: id,
+          preference: finalPreference,
+        }
+      );
 
       setPreference(finalPreference === "none" ? null : finalPreference);
 
       if (onToggle) onToggle(id);
-      toast(`Destination added to ${newPreference}s !`)
+      toast(
+        `Destination ${
+          finalPreference === "none" ? "removed from" : "added to"
+        } ${newPreference}s !`
+      );
     } catch (err) {
       console.error("Preference update error:", err);
     } finally {
@@ -86,16 +110,22 @@ export default function PlaceCard({ id, image, item_id, name, maxprice, minprice
       <div className="bg-[#ffffff80] text-black rounded-b-2xl flex justify-between px-4 py-2">
         <div onClick={() => router.push("/destinations/" + item_id)}>
           <h3 className="text-[15px] font-bold">{name}</h3>
-          <p className="text-base">${minprice} - ${maxprice}</p>
+          <p className="text-base">
+            ${minprice} - ${maxprice}
+          </p>
         </div>
         <div className="flex gap-3 items-center justify-end pb-2">
           <FaThumbsUp
             onClick={() => handlePreference("like")}
-            className={`cursor-pointer text-xl ${preference === "like" ? "text-white" : "text-black"}`}
+            className={`cursor-pointer text-xl ${
+              preference === "like" ? "text-white" : "text-black"
+            }`}
           />
           <FaThumbsDown
             onClick={() => handlePreference("dislike")}
-            className={`cursor-pointer text-xl ${preference === "dislike" ? "text-white" : "text-black"}`}
+            className={`cursor-pointer text-xl ${
+              preference === "dislike" ? "text-white" : "text-black"
+            }`}
           />
         </div>
       </div>
