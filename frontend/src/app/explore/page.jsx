@@ -39,6 +39,15 @@ export default function Explore() {
   }, [searchQuery]);
 
   const handleCardClick = (e, id) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const email = localStorage.getItem("email");
+    if (!email) {
+      setShowLoginPopup(true);
+      return;  
+    }
+
     const tagName = e.target.tagName.toLowerCase();
     const classList = e.target.classList;
 
@@ -51,13 +60,8 @@ export default function Explore() {
     ) {
       return; // Don't navigate
     }
+    router.push(`/destinations/${id}`);
 
-    const email = localStorage.getItem("email");
-    if (email) {
-      router.push(`/destinations/${id}`);
-    } else {
-      setShowLoginPopup(true);
-    }
   };
 
   const handleNewSearch = () => {
@@ -97,6 +101,7 @@ export default function Explore() {
                   name={item.Loc_name}
                   maxprice={item.Max_Price}
                   minprice={item.Min_Price}
+                  disableInternalNavigation={true}
                 />
               </div>
             ))}
@@ -184,9 +189,20 @@ export default function Explore() {
   };
 
   const handleCardClick = (e, id) => {
-    e.stopPropagation();
-    const email = localStorage.getItem("email");
+    const tagName = e.target.tagName.toLowerCase();
+    const classList = e.target.classList;
 
+    // Ignore clicks on icons or buttons
+    if (
+      tagName === "svg" ||
+      tagName === "path" ||
+      classList.contains("text-xl") ||
+      classList.contains("cursor-pointer")
+    ) {
+      return; // Don't navigate
+    }
+
+    const email = localStorage.getItem("email");
     if (email) {
       router.push(`/destinations/${id}`);
     } else {

@@ -6,7 +6,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
-export default function PlaceCard({ id, image, item_id, name, maxprice, minprice, onToggle }) {
+export default function PlaceCard({ id, image, item_id, name, maxprice, minprice, onToggle, disableInternalNavigation = false }) {
   const [preference, setPreference] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -81,10 +81,21 @@ export default function PlaceCard({ id, image, item_id, name, maxprice, minprice
         width={350}
         height={250}
         className="h-[200px] w-full object-cover rounded-t-2xl"
-        onClick={() => router.push("/destinations/" + item_id)}
+        // onClick={() => router.push("/destinations/" + item_id)}
+        onClick={() => {
+          if (!disableInternalNavigation) {
+            router.push("/destinations/" + item_id);
+          }
+        }}
       />
       <div className="bg-[#ffffff80] text-black rounded-b-2xl flex justify-between px-4 py-2">
-        <div onClick={() => router.push("/destinations/" + item_id)}>
+        <div
+          onClick={() => {
+            if (!disableInternalNavigation) {
+              router.push("/destinations/" + item_id);
+            }
+          }}
+        >
           <h3 className="text-[15px] font-bold">{name}</h3>
           <p className="text-base">${minprice} - ${maxprice}</p>
         </div>
