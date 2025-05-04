@@ -7,7 +7,7 @@ const places = [
   "Beaches",
   "Mountains",
   "Cities & Lights",
-  "Deserts",
+  "Desserts",
   "Islands",
   "Forests & Jungles",
   "Historical & Cultural Sites",
