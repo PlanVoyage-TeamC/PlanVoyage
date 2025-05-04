@@ -32,7 +32,7 @@ export default function LikesPage() {
 //  if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="destinationBg w-full h-screen relative">
+    <div className="destinationBg w-full min-h-screen relative">
       <div className="bg-[#3A2C2298] w-full h-full">
       <Navbar isDestinations={false} isPreferences={false} isHome={true} isProfileShown={true} />
         
@@ -42,7 +42,7 @@ export default function LikesPage() {
           {likedPlaces.length === 0 ? (
             <p className="text-white">You haven't liked any places yet.</p>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="overflow-x-scroll p-4 scrollbar-hide grid grid-rows-2 grid-flow-col gap-5">
               {likedPlaces.map((place) => (
                 <PlaceCard
                   key={place.id}
