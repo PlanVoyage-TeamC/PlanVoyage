@@ -6,31 +6,34 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 
 export default function PlaceCard({ id, image, item_id, name, maxprice, minprice, onToggle }) {
-  const [preference, setPreference] = useState(null); // 'like', 'dislike', or null
+  const [preference, setPreference] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
+    let isMounted = true;
+
     const checkPreference = async () => {
       const email = localStorage.getItem("email");
       if (!email) return;
 
       try {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/liked-places`, {
-          params: { email },
-        });
-        const isLiked = res.data.likedPlaces.some(p => p.id === id);
-        if (isLiked) {
-          setPreference("like");
-          return;
-        }
+        const [likeRes, dislikeRes] = await Promise.all([
+          axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/liked-places`, {
+            params: { email },
+          }),
+          axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/disliked-places`, {
+            params: { email },
+          }),
+        ]);
 
-        const dislikeRes = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/disliked-places`, {
-          params: { email },
-        });
+        const isLiked = likeRes.data.likedPlaces.some(p => p.id === id);
         const isDisliked = dislikeRes.data.dislikedPlaces.some(p => p.id === id);
-        if (isDisliked) {
-          setPreference("dislike");
+
+        if (isMounted) {
+          if (isLiked) setPreference("like");
+          else if (isDisliked) setPreference("dislike");
+          else setPreference(null);
         }
       } catch (err) {
         console.error("Error checking preference:", err);
@@ -38,6 +41,10 @@ export default function PlaceCard({ id, image, item_id, name, maxprice, minprice
     };
 
     checkPreference();
+
+    return () => {
+      isMounted = false;
+    };
   }, [id]);
 
   const handlePreference = async (newPreference) => {
@@ -56,7 +63,7 @@ export default function PlaceCard({ id, image, item_id, name, maxprice, minprice
 
       setPreference(finalPreference === "none" ? null : finalPreference);
 
-      if (onToggle) onToggle(id); // Re-fetch recommendations
+      if (onToggle) onToggle(id);
     } catch (err) {
       console.error("Preference update error:", err);
     } finally {

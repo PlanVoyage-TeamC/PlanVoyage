@@ -1,5 +1,4 @@
 "use client";
-
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import PlaceCard from "./placeCard";
@@ -34,7 +33,7 @@ export default function Destination() {
       });
       setDestinations(res.data);
       if (!category) {
-        fetchRecommended(mail); // fetch only when not in category mode
+        fetchRecommended(mail);
       }
     } catch (err) {
       console.log(err);
@@ -55,9 +54,9 @@ export default function Destination() {
           <div className="p-4">
             <h2 className="text-2xl text-white font-bold mb-4">PlanVoyage Recommends You</h2>
             <div className="overflow-x-scroll scrollbar-hide grid grid-rows-1 grid-flow-col gap-5">
-              {recommendedDestinations.map((item, index) => (
+              {recommendedDestinations.map((item) => (
                 <PlaceCard
-                  key={`recommended-${index}`}
+                  key={item._id} 
                   id={item.id}
                   item_id={item._id}
                   image={item.Image}
@@ -75,10 +74,9 @@ export default function Destination() {
         <div className="p-4">
           <h2 className="text-2xl text-white font-bold mb-4">Your Destinations</h2>
           <div className="overflow-x-scroll scrollbar-hide grid grid-rows-1 grid-flow-col gap-5">
-            {destinations.map((item, index) => (
-
+            {destinations.map((item) => (
               <PlaceCard
-                key={index}
+                key={item._id}
                 id={item.id}
                 item_id={item._id}
                 image={item.Image}
@@ -95,3 +93,5 @@ export default function Destination() {
     </div>
   );
 }
+
+
