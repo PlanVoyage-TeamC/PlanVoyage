@@ -20,8 +20,14 @@
 }
 
 @keyframes fade-in {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .animate-fade-in {
@@ -34,50 +40,54 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.homeBg{ 
-  background-image: url('/images/homeBg.png'); 
+.homeBg {
+  background-image: url("/images/homeBg.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-.destinationBg{ 
-  background-image: url('/images/destinationBg.png'); 
+.destinationBg {
+  background-image: url("/images/destinationBg.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-.loginBg{ 
-  background-image: url('/images/loginBg.png'); 
+.loginBg {
+  background-image: url("/images/loginBg.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-.preferenceBg{ 
-  background-image: url('/images/preferenceBg.png'); 
+.preferenceBg {
+  background-image: url("/images/preferenceBg.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-.searchBg{ 
-  background-image: url('/images/searchBg.jpg'); 
+.searchBg {
+  background-image: url("/images/searchBg.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 .text-stroke {
   -webkit-text-stroke: 1px black;
-  color: black; 
+  color: black;
 }
 /* Target the entire scrollbar */
 ::-webkit-scrollbar {
   width: 0px;
   height: 2px;
-   /* Adjust the width */
+  /* Adjust the width */
 }
 
 /* Style the thumb */
