@@ -16,7 +16,7 @@ export default function Navbar({ isDestinations, isHome, isPreferences }) {
       if (email) {
         setIsLoggedIn(true);
 
-        fetch(`http://localhost:5000/api/getUser?email=${email}`)
+        fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/getUser?email=${email}`)
           .then((res) => {
             if (!res.ok) {
               throw new Error("Failed to fetch user data");

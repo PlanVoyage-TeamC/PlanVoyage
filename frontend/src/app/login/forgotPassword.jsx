@@ -8,7 +8,7 @@ export default function ForgotPassword({ setIsForgotPassword }) {
 
   const handleForgotPassword = async () => {
     try {
-      const response = await axios.post("http://localhost:5000/api/forgotPassword", { email });
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/forgotPassword`, { email });
       setSuccess(response.data.message);
       setError("");
     } catch (err) {

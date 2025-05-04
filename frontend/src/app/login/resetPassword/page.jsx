@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-import { validatePassword } from "./validatePassword";
+import { validatePassword } from "../validatePassword";
 
 export default function ResetPassword() {
   const [token, setToken] = useState(null);
@@ -30,7 +30,7 @@ export default function ResetPassword() {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/api/resetPassword", {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/resetPassword`, {
         token,
         newPassword,
       });
