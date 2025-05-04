@@ -1,10 +1,24 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { UserCircle } from "lucide-react";
+import { UserCircle, Menu } from "lucide-react";
+
+const places = [
+  "Beaches",
+  "Mountains",
+  "Cities & Lights",
+  "Deserts",
+  "Islands",
+  "Forests & Jungles",
+  "Historical & Cultural Sites",
+  "Theme Parks & Resorts",
+  "Scenic",
+  "Sports",
+];
 
 export default function Navbar({ isDestinations, isHome, isPreferences }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
   const dropdownRef = useRef(null);
@@ -21,8 +35,35 @@ export default function Navbar({ isDestinations, isHome, isPreferences }) {
     router.push("/");
   };
 
+  const handleCategoryClick = (category) => {
+    router.push(`/destinations?category=${encodeURIComponent(category)}`);
+    setMenuOpen(false);
+  };  
+
   return (
     <div className="relative">
+        {isLoggedIn && (
+          <div className="absolute top-4 left-4 z-50">
+            <Menu
+              size={32}
+              onClick={() => setMenuOpen((prev) => !prev)}
+              className="text-white cursor-pointer hover:scale-105 transition-transform duration-200"
+            />
+            {menuOpen && (
+              <div className="absolute left-0 mt-2 w-56 bg-white text-black rounded-md shadow-lg py-2 max-h-96 overflow-y-auto">
+                {places.map((place) => (
+                  <p
+                    key={place}
+                    onClick={() => handleCategoryClick(place)}
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  >
+                    {place}
+                  </p>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       <div className="flex items-center justify-center text-xl font-light text-white p-4 space-x-20">
         {isPreferences && <a href="/preferences">Preferences</a>}
         {isHome && <a href="/home">Home</a>}

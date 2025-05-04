@@ -1,15 +1,17 @@
 "use client";
-
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import PlaceCard from "./placeCard";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function Destination() {
   const [destinations, setDestinations] = useState([]);
   const [recommendedDestinations, setRecommendedDestinations] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const searchParams = useSearchParams();
+  const category = searchParams.get("category");
 
   const fetchRecommended = async () => {
     const mail = localStorage.getItem("email");
@@ -27,10 +29,12 @@ export default function Destination() {
     const mail = localStorage.getItem("email");
     try {
       const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/destinations`, {
-        params: { email: mail },
+        params: category ? { category } : { email: mail },
       });
       setDestinations(res.data);
-      fetchRecommended(); // get recommendations too
+      if (!category) {
+        fetchRecommended(mail);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -38,7 +42,7 @@ export default function Destination() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [category]);
 
   return (
     <div className="destinationBg w-full min-h-screen relative">
@@ -50,9 +54,9 @@ export default function Destination() {
           <div className="p-4">
             <h2 className="text-2xl text-white font-bold mb-4">PlanVoyage Recommends You</h2>
             <div className="overflow-x-scroll p-4 scrollbar-hide grid grid-rows-1 grid-flow-col gap-5">
-              {recommendedDestinations.map((item, index) => (
+              {recommendedDestinations.map((item) => (
                 <PlaceCard
-                  key={`recommended-${index}`}
+                  key={item._id} 
                   id={item.id}
                   item_id={item._id}
                   image={item.Image}
@@ -70,10 +74,9 @@ export default function Destination() {
         <div className="p-4">
           <h2 className="text-2xl text-white font-bold mb-4">Your Destinations</h2>
           <div className="overflow-x-scroll p-4 scrollbar-hide grid grid-rows-1 grid-flow-col gap-5">
-            {destinations.map((item, index) => (
-
+            {destinations.map((item) => (
               <PlaceCard
-                key={index}
+                key={item._id}
                 id={item.id}
                 item_id={item._id}
                 image={item.Image}
@@ -90,3 +93,5 @@ export default function Destination() {
     </div>
   );
 }
+
+

@@ -4,9 +4,16 @@ import destinationModel from "../models/Destinations.js";
 import preferencesModel from "../models/Preferences.js";
 
 router.get("/destinations", async (req, res) => {
-  const { email } = req.query;
+  const { email, category } = req.query;
 
   try {
+    if (category) {
+      const destinations = await destinationModel.find({
+        Category: { $regex: new RegExp(`^${category}$`, "i") }
+      });
+      return res.status(200).json(destinations);
+    }
+    
     if (email) {
       // Logged-in user with preferences
       const preferences = await preferencesModel.findOne({ email });
@@ -20,23 +27,24 @@ router.get("/destinations", async (req, res) => {
         Seasons = [],
         Travel_Partner = [],
         Activities = [],
-        // Budget,
       } = preferences;
       const userBudget = parseFloat(preferences.Budget) || 100000;
 
-      const matchingDestinations = await destinationModel.find({
-        Category: { $in: Category },
-        Seasons: { $in: Seasons },
-        Travel_Partner: { $in: Travel_Partner },
-        Activities: { $in: Activities },
-        $expr: {
-          $lte: [
-            { $divide: [{ $add: ['$Min_Price', '$Max_Price'] }, 2] },
-            userBudget
-          ]
-        }
-      });
+      const query = {};
 
+      if (Category.length > 0) query.Category = { $in: Category };
+      if (Seasons.length > 0) query.Seasons = { $in: Seasons };
+      if (Travel_Partner.length > 0) query.Travel_Partner = { $in: Travel_Partner };
+      if (Activities.length > 0) query.Activities = { $in: Activities };
+
+      query.$expr = {
+        $lte: [
+          { $divide: [{ $add: ['$Min_Price', '$Max_Price'] }, 2] },
+          userBudget
+        ]
+      };
+
+      const matchingDestinations = await destinationModel.find(query);
       return res.status(200).json(matchingDestinations);
     } 
      else {
