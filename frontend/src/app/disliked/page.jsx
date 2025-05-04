@@ -29,13 +29,10 @@ export default function DislikesPage() {
     fetchDislikedPlaces();
   }, []);
 
-  
-//  if (loading) return <div>Loading...</div>;
-
   return (
     <div className="destinationBg w-full h-screen relative">
       <div className="bg-[#3A2C2298] w-full h-full">
-      <Navbar isDestinations={false} isPreferences={false} isHome={true} isProfileShown={true} />
+      <Navbar isHome={true} isDestinations={true} isPreferences={false} isProfileShown={true} />
 
         <div className="p-8">
           <h1 className="text-3xl font-bold text-white mb-6">Your Disliked Places</h1>
