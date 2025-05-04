@@ -53,7 +53,7 @@ export default function AuthForm() {
     
     if (isSignUp) {
       if (!validatePassword(password)) { 
-        newErrors.password = "At least 8 characters with a mix of uppercase, lowercase, numbers, and special symbols.";
+        newErrors.password = "At least 8 characters with a mix of uppercase, lowercase, number, and special symbol.";
       }
 
       if (password !== confirmPassword) {

@@ -23,7 +23,7 @@ export default function Navbar({ isDestinations, isHome, isPreferences }) {
   const [lastname, setLastname] = useState(""); 
   const router = useRouter();
   const dropdownRef = useRef(null);
-
+  const menuRef = useRef(null); // NEW: ref for the menu
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -50,23 +50,23 @@ export default function Navbar({ isDestinations, isHome, isPreferences }) {
     }
   }, []);
 
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setDropdownOpen(false);
       }
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuOpen(false);
+      }
     };
-  
-    if (dropdownOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-  
+
+    document.addEventListener("mousedown", handleClickOutside);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [dropdownOpen]);
+  }, []);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -80,28 +80,29 @@ export default function Navbar({ isDestinations, isHome, isPreferences }) {
 
   return (
     <div className="relative">
-       {isLoggedIn && (
-           <div className="absolute top-4 left-4 z-50">
-             <Menu
-               size={32}
-               onClick={() => setMenuOpen((prev) => !prev)}
-               className="text-white cursor-pointer hover:scale-105 transition-transform duration-200"
-             />
-             {menuOpen && (
-               <div className="absolute left-0 mt-2 w-56 bg-white text-black rounded-md shadow-lg py-2 max-h-96 overflow-y-auto">
-                 {places.map((place) => (
-                   <p
-                     key={place}
-                     onClick={() => handleCategoryClick(place)}
-                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                   >
-                     {place}
-                   </p>
-                 ))}
-               </div>
-             )}
-           </div>
-         )}
+      {isLoggedIn && (
+        <div className="absolute top-4 left-4 z-50" ref={menuRef}>
+          <Menu
+            size={32}
+            onClick={() => setMenuOpen((prev) => !prev)}
+            className="text-white cursor-pointer hover:scale-105 transition-transform duration-200"
+          />
+          {menuOpen && (
+            <div className="absolute left-0 mt-2 w-56 bg-white text-black rounded-md shadow-lg py-2 max-h-96 overflow-y-auto">
+              {places.map((place) => (
+                <p
+                  key={place}
+                  onClick={() => handleCategoryClick(place)}
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                >
+                  {place}
+                </p>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
       <div className="flex items-center justify-center text-xl font-light text-white p-4 space-x-20">
         {isPreferences && <a href="/preferences">Preferences</a>}
         {isHome && <a href="/home">Home</a>}
@@ -114,11 +115,9 @@ export default function Navbar({ isDestinations, isHome, isPreferences }) {
         <div className="absolute top-4 right-4 z-50 flex items-center space-x-2">
           {lastname && (
             <span className="text-white text-[16px] font-medium font-sans tracking-wide animate-fade-in">
-            Welcome, <span className="capitalize">{lastname}</span>
-          </span>
-          
+              Welcome, <span className="capitalize">{lastname}</span>
+            </span>
           )}
-          
           <div className="relative" ref={dropdownRef}>
             <UserCircle
               size={36}
