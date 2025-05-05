@@ -21,7 +21,7 @@ export default function SearchBar() {
   };
 
   return (
-    <div className="flex justify-center items-center mt-8 w-full">
+    <div className="flex justify-center items-center mt-8 w-3/4 mx-auto sm:w-full ">
       <div className={`flex items-center w-full max-w-3xl px-4 py-1 rounded-full border border-white bg-black/40 shadow-md transition-all duration-300`}>
         <input
           type="text"

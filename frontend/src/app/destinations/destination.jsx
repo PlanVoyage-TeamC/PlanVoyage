@@ -55,7 +55,7 @@ export default function Destination() {
 
   return (
     <div className="destinationBg w-full min-h-screen relative">
-      <div className="bg-[#3A2C2298] w-full h-full pb-10 ">
+      <div className="bg-[#3A2C2298] w-full h-full pt-0 sm:pt-0">
         <Navbar
           isDestinations={false}
           isPreferences={false}
