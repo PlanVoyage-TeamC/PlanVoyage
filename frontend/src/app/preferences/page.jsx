@@ -40,8 +40,13 @@ export default function Preferences() {
       console.log(err);
     }
   }  
+
   function removeEmojis(text) {
-    return text.replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, '').trim();
+    return text
+      .replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, '')
+      .replace(/\uFE0F/g, '') // Remove variation selectors
+      .replace(/\s+/g, ' ')    // Normalize whitespace
+      .trim();
   }
   const categoryOptions = [
     "Beaches",
