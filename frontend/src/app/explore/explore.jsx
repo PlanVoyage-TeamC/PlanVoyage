@@ -19,8 +19,6 @@ export default function Explore() {
     const email = localStorage.getItem("email");
     if (email) setIsLoggedIn(true);
 
-    setSearchQueryInput(searchQuery);
-
     const fetchData = async () => {
       try {
         const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/explore`, {
