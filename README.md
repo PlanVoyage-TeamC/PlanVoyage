@@ -28,7 +28,6 @@ PlanVoyage is a full-stack travel genome web application that curates personalis
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/<your-org-or-username>/PlanVoyage.git
 cd PlanVoyage
 ```
 ### 2. Start Frontend
