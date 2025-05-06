@@ -1,5 +1,6 @@
 # 🌍 PlanVoyage
 Use our app here - https://plan-voyage-11.vercel.app
+
 PlanVoyage is a full-stack travel genome web application that curates personalised destination recommendations based on user preferences such as category, weather, activities, budget, and travel partners.
 
 ## ✨ Features
